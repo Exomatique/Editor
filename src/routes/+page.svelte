@@ -1,9 +1,13 @@
 <script>
 	import Editor from '$lib/Editor.svelte';
+	import ExoEditor from '$lib/ExoEditor.js';
+	import TextModule from '$lib/modules/text/TextModule.js';
+
+	const exo_editor = new ExoEditor({ modules: [new TextModule()] });
 </script>
 
 <div class="relative flex w-full flex-1 flex-row justify-center">
 	<div class="absolute h-full w-3/4 flex-1 flex-row">
-		<Editor />
+		<Editor {exo_editor} />
 	</div>
 </div>
