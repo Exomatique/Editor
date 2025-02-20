@@ -9,8 +9,9 @@
 	let {
 		data = $bindable(),
 		onchange,
-		focused
-	}: { data: TextData; onchange: (v: string) => void; focused: boolean } = $props();
+		focused,
+		index
+	}: { data: TextData; onchange: (v: string) => void; focused: boolean; index: number } = $props();
 
 	let html_data = $state('');
 
@@ -29,16 +30,20 @@
 	$effect(() => {
 		html_data_updater(data).then((v) => {
 			html_data = v;
-			console.log(html_data);
 		});
 	});
 
-	$inspect(data + ' C ' + focused);
+	$effect(() => {
+		if (focused)
+			(
+				document.getElementById('exo_block_' + index)?.getElementsByClassName('editable')[0] as any
+			).focus();
+	});
 </script>
 
 <div class="relative">
 	{#if focused}
-		<div class="w-full flex-1 outline-none" contenteditable bind:innerText={data}></div>
+		<div class="editable w-full flex-1 outline-none" contenteditable bind:innerText={data}></div>
 	{:else}
 		<div class="min-h-5 w-full flex-1 border-none outline-none" contenteditable>
 			{@html html_data}

@@ -15,8 +15,6 @@
 
 	// Module picker
 	let filter = $state('');
-
-	$inspect(' P ' + focused);
 </script>
 
 <div
@@ -76,7 +74,25 @@
 					</Popover>
 				{/if}
 			</div>
-			<div class="flex-1" onfocusin={() => (focused = v.index)} onfocusout={() => (focused = -1)}>
+			<div
+				data-block-index={v.index}
+				data-type={v.type}
+				role="none"
+				id={'exo_block_' + v.index}
+				class="exo_block flex-1"
+				onfocusin={() => (focused = v.index)}
+				onfocusout={() => (focused = -1)}
+				onkeydown={(e) => {
+					if (e.key === 'Enter' && !e.shiftKey) {
+						datas = datas.toSpliced(v.index + 1, 0, {
+							type: 'text',
+							data: exo_editor.modules['text'].default_value()
+						});
+						focused = v.index + 1;
+						e.preventDefault();
+					}
+				}}
+			>
 				<Component
 					data={v.data}
 					index={v.index}
