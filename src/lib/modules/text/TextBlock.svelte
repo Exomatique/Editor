@@ -6,7 +6,8 @@
 	import rehypeStringify from 'rehype-stringify';
 	import { unified } from 'unified';
 
-	let { data = $bindable() }: { data: TextData } = $props();
+	let { data = $bindable(), onchange }: { data: TextData; onchange: (v: string) => void } =
+		$props();
 
 	let html_data = $state('');
 
@@ -19,6 +20,8 @@
 			.process(data)
 			.then(String);
 	};
+
+	$effect(() => onchange(data));
 
 	let focused = $state(false);
 
@@ -39,7 +42,7 @@
 		</div>
 	{/if}
 	{#key data}
-		{#if !focused && (data.length === 0 || data === '\n')}
+		{#if focused && (data.length === 0 || data === '\n')}
 			<div class="pointer-events-none absolute left-0 top-0 text-surface-400">Type text</div>
 		{/if}
 	{/key}
