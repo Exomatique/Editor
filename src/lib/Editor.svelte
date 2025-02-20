@@ -15,6 +15,8 @@
 
 	// Module picker
 	let filter = $state('');
+
+	$inspect(' P ' + focused);
 </script>
 
 <div
@@ -82,6 +84,7 @@
 					onchange={(value: any) => {
 						datas[v.index].data = value;
 					}}
+					focused={focused === v.index && !add_tooltip}
 				/>
 			</div>
 		</div>

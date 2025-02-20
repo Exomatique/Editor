@@ -6,8 +6,11 @@
 	import rehypeStringify from 'rehype-stringify';
 	import { unified } from 'unified';
 
-	let { data = $bindable(), onchange }: { data: TextData; onchange: (v: string) => void } =
-		$props();
+	let {
+		data = $bindable(),
+		onchange,
+		focused
+	}: { data: TextData; onchange: (v: string) => void; focused: boolean } = $props();
 
 	let html_data = $state('');
 
@@ -23,17 +26,17 @@
 
 	$effect(() => onchange(data));
 
-	let focused = $state(false);
-
 	$effect(() => {
 		html_data_updater(data).then((v) => {
 			html_data = v;
 			console.log(html_data);
 		});
 	});
+
+	$inspect(data + ' C ' + focused);
 </script>
 
-<div class="relative" onfocusin={() => (focused = true)} onfocusout={() => (focused = false)}>
+<div class="relative">
 	{#if focused}
 		<div class="w-full flex-1 outline-none" contenteditable bind:innerText={data}></div>
 	{:else}
