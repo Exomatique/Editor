@@ -4,10 +4,13 @@
 	import type IExoModuleData from './IExoModuleData.js';
 	import '@fortawesome/fontawesome-free/css/all.min.css';
 	import ExoInstance from './ExoInstance.js';
+	import BlockAdder from './BlockAdder.svelte';
+	import { stopPropagation } from 'svelte/legacy';
 
 	let { exo_editor }: { exo_editor: ExoEditor } = $props();
 	let datas: IExoModuleData[] = $state([{ type: 'text', data: '' }]);
 	let focused = $state(-1);
+	let edition = $state(-1);
 
 	class ExoInstanceImpl extends ExoInstance {
 		getEditor: () => ExoEditor = () => exo_editor;
@@ -16,8 +19,15 @@
 			datas = blocks;
 		};
 		getFocus: () => number = () => focused;
-		setFocus: (v: number) => void = (v) =>
-			(focused = v >= datas.length ? datas.length - 1 : v < 0 ? 0 : v);
+		setFocus: (v: number) => void = (v) => {
+			focused = v >= datas.length ? datas.length - 1 : v < 0 ? 0 : v;
+			if (focused !== edition) edition = -1;
+		};
+		getEdition: () => number = () => edition;
+		setEdition: (v: number) => void = (v) => {
+			if (this.getFocus() !== v) focused = v >= datas.length ? datas.length - 1 : v < 0 ? 0 : v;
+			edition = v >= datas.length ? datas.length - 1 : v < 0 ? 0 : v;
+		};
 	}
 
 	let exo_instance = new ExoInstanceImpl();
@@ -26,12 +36,16 @@
 	let toolbar = $derived(focused === -1 ? hovered : focused);
 	let add_tooltip = $state(false);
 
-	// Module picker
-	let filter = $state('');
+	$inspect('F', focused);
+	$inspect('T', toolbar);
+	$inspect('H', hovered);
 </script>
 
 <div
 	class="rounded-3x relative min-h-20 w-full bg-surface-50 py-10 text-body-color-dark shadow-2xl"
+	tabindex="-1"
+	role="none"
+	onclick={() => (focused = -1)}
 >
 	{#each datas.map((v, i) => {
 		return { type: v.type, data: v.data, index: i };
@@ -39,52 +53,23 @@
 		{@const Component = exo_editor.modules[v.type].component}
 		<div
 			role="none"
-			class="relative flex flex-row"
+			class={'relative flex flex-row' + (focused === v.index ? ' bg-surface-200' : '')}
 			onmouseenter={(e) => {
 				hovered = v.index;
 			}}
 			onmouseleave={(e) => {
 				hovered = -1;
 			}}
+			onfocusin={() => {
+				focused = v.index;
+			}}
+			onclick={(e) => {
+				e.stopPropagation();
+			}}
 		>
 			<div class="me-5 flex w-20 justify-end">
 				{#if toolbar === v.index}
-					<Popover
-						bind:open={add_tooltip}
-						positioning={{ placement: 'top' }}
-						triggerBase="preset-tonal px-2 rounded-lg"
-						contentBase="flex flex-col relative rounded-lg border-2 border-surface-300 bg-surface-50 p-2"
-						arrow
-						arrowBackground="!bg-surface-200 dark:!bg-surface-800"
-						onclick={() => (focused = v.index)}
-					>
-						{#snippet trigger()}<i class="fa-solid fa-plus"></i>{/snippet}
-						{#snippet content()}
-							<div class="m-2 rounded-lg bg-surface-100 p-1">
-								<i class="fa-solid fa-magnifying-glass mx-2"></i>
-								<input class="bg-surface-100 outline-none" bind:value={filter} />
-							</div>
-							<div class="flex flex-1 gap-2">
-								{#each Object.keys(exo_editor.modules).filter((v) => exo_editor.modules[v].name
-										.toLowerCase()
-										.startsWith(filter.toLowerCase())) as k}
-									<button
-										class="m-2 flex flex-1 flex-row items-center gap-5 rounded-lg p-1 px-4 hover:bg-surface-100"
-										onclick={() => {
-											datas = datas.toSpliced(v.index + 1, 0, {
-												type: k,
-												data: exo_editor.modules[k].default_value()
-											});
-											focused = -1;
-										}}
-									>
-										{@html exo_editor.modules[k].icon}
-										{exo_editor.modules[k].name}
-									</button>
-								{/each}
-							</div>
-						{/snippet}
-					</Popover>
+					<BlockAdder open={add_tooltip} instance={exo_instance} index={v.index} />
 				{/if}
 			</div>
 			<div
@@ -93,8 +78,12 @@
 				role="none"
 				id={'exo_block_' + v.index}
 				class="exo_block flex-1"
-				onfocusin={() => (focused = v.index)}
-				onfocusout={() => (focused = -1)}
+				onfocusin={() => {
+					edition = v.index;
+				}}
+				onfocusout={() => {
+					edition = -1;
+				}}
 			>
 				<Component
 					data={v.data}
@@ -104,7 +93,8 @@
 					onchange={(value: any) => {
 						datas[v.index].data = value;
 					}}
-					focused={focused === v.index && !add_tooltip}
+					focused={focused === v.index}
+					edition={edition === v.index}
 				/>
 			</div>
 		</div>
