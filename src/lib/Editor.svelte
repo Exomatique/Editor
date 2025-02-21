@@ -30,7 +30,7 @@
 		};
 	}
 
-	let exo_instance = new ExoInstanceImpl();
+	let instance = new ExoInstanceImpl();
 
 	let hovered = $state(-1);
 	let toolbar = $derived(focused === -1 ? hovered : focused);
@@ -53,7 +53,7 @@
 		{@const Component = exo_editor.modules[v.type].component}
 		<div
 			role="none"
-			class={'relative flex flex-row' + (focused === v.index ? ' bg-surface-200' : '')}
+			class={'relative flex flex-row'}
 			onmouseenter={(e) => {
 				hovered = v.index;
 			}}
@@ -66,10 +66,17 @@
 			onclick={(e) => {
 				e.stopPropagation();
 			}}
+			onkeydown={(e) => {
+				if (e.key === 'ArrowDown' && e.ctrlKey) {
+					instance.setEdition(instance.getEdition() + 1);
+				} else if (e.key === 'ArrowUp' && e.ctrlKey) {
+					instance.setEdition(instance.getEdition() - 1);
+				}
+			}}
 		>
 			<div class="me-5 flex w-20 justify-end">
 				{#if toolbar === v.index}
-					<BlockAdder open={add_tooltip} instance={exo_instance} index={v.index} />
+					<BlockAdder open={add_tooltip} {instance} index={v.index} />
 				{/if}
 			</div>
 			<div
@@ -88,7 +95,7 @@
 				<Component
 					data={v.data}
 					index={v.index}
-					instance={exo_instance}
+					{instance}
 					{datas}
 					onchange={(value: any) => {
 						datas[v.index].data = value;

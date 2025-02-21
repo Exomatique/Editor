@@ -10,13 +10,13 @@
 	let {
 		data = $bindable(),
 		onchange,
-		focused,
+		edition,
 		instance,
 		index
 	}: {
 		data: TextData;
 		onchange: (v: string) => void;
-		focused: boolean;
+		edition: boolean;
 		instance: ExoInstance;
 		index: number;
 	} = $props();
@@ -42,7 +42,7 @@
 	});
 
 	$effect(() => {
-		if (focused)
+		if (edition)
 			(
 				document.getElementById('exo_block_' + index)?.getElementsByClassName('editable')[0] as any
 			).focus();
@@ -50,7 +50,7 @@
 </script>
 
 <div class="relative">
-	{#if focused}
+	{#if edition}
 		<div
 			role="none"
 			class="editable w-full flex-1 outline-none"
@@ -62,14 +62,8 @@
 						{ type: 'text', data: instance.getEditor().modules['text'].default_value() },
 						index + 1
 					);
-					instance.setFocus(index + 1);
+					instance.setEdition(index + 1);
 					e.preventDefault();
-				} else if (e.key === 'ArrowDown') {
-					const line = window.getSelection()?.getRangeAt(0).startContainer;
-					if (!line?.nextSibling || e.ctrlKey) instance.setFocus(instance.getFocus() + 1);
-				} else if (e.key === 'ArrowUp') {
-					const line = window.getSelection()?.getRangeAt(0).startContainer;
-					if (!line?.previousSibling || e.ctrlKey) instance.setFocus(instance.getFocus() - 1);
 				}
 			}}
 		></div>
@@ -79,7 +73,7 @@
 		</div>
 	{/if}
 	{#key data}
-		{#if focused && (data.length === 0 || data === '\n')}
+		{#if edition && (data.length === 0 || data === '\n')}
 			<div class="pointer-events-none absolute left-0 top-0 text-surface-400">Type text</div>
 		{/if}
 	{/key}
