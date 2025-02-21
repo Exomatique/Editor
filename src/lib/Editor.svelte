@@ -35,10 +35,6 @@
 	let hovered = $state(-1);
 	let toolbar = $derived(focused === -1 ? hovered : focused);
 	let add_tooltip = $state(false);
-
-	$inspect('F', focused);
-	$inspect('T', toolbar);
-	$inspect('H', hovered);
 </script>
 
 <div
