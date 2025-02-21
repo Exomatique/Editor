@@ -5,13 +5,21 @@
 	import rehypeSanitize from 'rehype-sanitize';
 	import rehypeStringify from 'rehype-stringify';
 	import { unified } from 'unified';
+	import type ExoInstance from '../../ExoInstance.js';
 
 	let {
 		data = $bindable(),
 		onchange,
 		focused,
+		instance,
 		index
-	}: { data: TextData; onchange: (v: string) => void; focused: boolean; index: number } = $props();
+	}: {
+		data: TextData;
+		onchange: (v: string) => void;
+		focused: boolean;
+		instance: ExoInstance;
+		index: number;
+	} = $props();
 
 	let html_data = $state('');
 
@@ -43,7 +51,28 @@
 
 <div class="relative">
 	{#if focused}
-		<div class="editable w-full flex-1 outline-none" contenteditable bind:innerText={data}></div>
+		<div
+			role="none"
+			class="editable w-full flex-1 outline-none"
+			contenteditable
+			bind:innerText={data}
+			onkeydown={(e) => {
+				if (e.key === 'Enter' && !e.shiftKey) {
+					instance.insertBlockAt(
+						{ type: 'text', data: instance.getEditor().modules['text'].default_value() },
+						index + 1
+					);
+					instance.setFocus(index + 1);
+					e.preventDefault();
+				} else if (e.key === 'ArrowDown') {
+					const line = window.getSelection()?.getRangeAt(0).startContainer;
+					if (!line?.nextSibling || e.ctrlKey) instance.setFocus(instance.getFocus() + 1);
+				} else if (e.key === 'ArrowUp') {
+					const line = window.getSelection()?.getRangeAt(0).startContainer;
+					if (!line?.previousSibling || e.ctrlKey) instance.setFocus(instance.getFocus() - 1);
+				}
+			}}
+		></div>
 	{:else}
 		<div class="min-h-5 w-full flex-1 border-none outline-none" contenteditable>
 			{@html html_data}
