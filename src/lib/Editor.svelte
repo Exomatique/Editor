@@ -8,7 +8,12 @@
 	import { stopPropagation } from 'svelte/legacy';
 
 	let { exo_editor }: { exo_editor: ExoEditor } = $props();
-	let datas: IExoModuleData[] = $state([{ type: 'text', data: '' }]);
+	let datas: IExoModuleData[] = $state([
+		{
+			type: exo_editor.default_module,
+			data: exo_editor.modules[exo_editor.default_module].default_value()
+		}
+	]);
 	let focused = $state(-1);
 	let edition = $state(-1);
 

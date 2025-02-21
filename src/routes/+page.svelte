@@ -4,7 +4,10 @@
 	import MdModule from '$lib/modules/md/MdModule.js';
 	import TextModule from '$lib/modules/text/TextModule';
 
-	const exo_editor = new ExoEditor({ modules: [new MdModule(), new TextModule()] });
+	const exo_editor = new ExoEditor({
+		modules: [new MdModule(), new TextModule()],
+		default_module: 'md'
+	});
 </script>
 
 <div class="relative flex w-full flex-1 flex-row justify-center">
