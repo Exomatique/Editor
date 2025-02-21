@@ -30,13 +30,13 @@
 			<i class="fa-solid fa-magnifying-glass mx-2"></i>
 			<input class="bg-surface-100 outline-none" bind:value={filter} />
 		</div>
-		<div class="flex flex-1 gap-2">
+		<div class="flex flex-1 flex-col gap-2">
 			{#each Object.keys(instance.getEditor().modules).filter((v) => instance
 					.getEditor()
 					.modules[v].name.toLowerCase()
 					.startsWith(filter.toLowerCase())) as k}
 				<button
-					class="m-2 flex flex-1 flex-row items-center gap-5 rounded-lg p-1 px-4 hover:bg-surface-100"
+					class="m-1 flex flex-1 flex-row items-center gap-5 rounded-lg px-4 hover:bg-surface-100"
 					onclick={() => {
 						instance.insertBlockAt(
 							{

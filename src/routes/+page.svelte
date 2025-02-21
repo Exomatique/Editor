@@ -2,8 +2,9 @@
 	import Editor from '$lib/Editor.svelte';
 	import ExoEditor from '$lib/ExoEditor.js';
 	import MdModule from '$lib/modules/md/MdModule.js';
+	import TextModule from '$lib/modules/text/TextModule';
 
-	const exo_editor = new ExoEditor({ modules: [new MdModule()] });
+	const exo_editor = new ExoEditor({ modules: [new MdModule(), new TextModule()] });
 </script>
 
 <div class="relative flex w-full flex-1 flex-row justify-center">

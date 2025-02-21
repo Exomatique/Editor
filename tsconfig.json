@@ -9,13 +9,6 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
-		"module": "NodeNext",
-		"moduleResolution": "NodeNext",
-		"allowSyntheticDefaultImports": true
-	},
-    "typeRoots": [
-        "./src/@types/",
-        "./node_modules/@editorjs/editorjs/types"       
-    ]   
+	}
 }
 
