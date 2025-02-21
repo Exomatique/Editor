@@ -12,12 +12,14 @@
 		onchange,
 		edition,
 		instance,
+		id,
 		index
 	}: {
 		data: MdData;
 		onchange: (v: string) => void;
 		edition: boolean;
 		instance: ExoInstance;
+		id: string;
 		index: number;
 	} = $props();
 
@@ -43,9 +45,7 @@
 
 	$effect(() => {
 		if (edition)
-			(
-				document.getElementById('exo_block_' + index)?.getElementsByClassName('editable')[0] as any
-			).focus();
+			(document.getElementById(id)?.getElementsByClassName('editable')[0] as any).focus();
 	});
 </script>
 
@@ -59,11 +59,16 @@
 			onkeydown={(e) => {
 				if (e.key === 'Enter' && !e.shiftKey) {
 					instance.insertBlockAt(
-						{ type: 'md', data: instance.getEditor().modules['md'].default_value() },
+						{
+							type: 'md',
+							data: instance.getEditor().modules['md'].default_value(),
+							id: crypto.randomUUID().replace('-', '_')
+						},
 						index + 1
 					);
 					instance.setEdition(index + 1);
 					e.preventDefault();
+					e.stopPropagation();
 				}
 			}}
 		></div>

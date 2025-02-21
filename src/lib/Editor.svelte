@@ -1,21 +1,22 @@
 <script lang="ts">
-	import { Popover } from '@skeletonlabs/skeleton-svelte';
 	import type ExoEditor from './ExoEditor.js';
 	import type IExoModuleData from './IExoModuleData.js';
 	import '@fortawesome/fontawesome-free/css/all.min.css';
 	import ExoInstance from './ExoInstance.js';
 	import BlockAdder from './BlockAdder.svelte';
-	import { stopPropagation } from 'svelte/legacy';
 
 	let { exo_editor }: { exo_editor: ExoEditor } = $props();
 	let datas: IExoModuleData[] = $state([
 		{
 			type: exo_editor.default_module,
-			data: exo_editor.modules[exo_editor.default_module].default_value()
+			data: exo_editor.modules[exo_editor.default_module].default_value(),
+			id: crypto.randomUUID().replace('-', '_')
 		}
 	]);
 	let focused = $state(-1);
 	let edition = $state(-1);
+	let hovered = $state(-1);
+	let toolbar = $derived(focused === -1 ? hovered : focused);
 
 	class ExoInstanceImpl extends ExoInstance {
 		getEditor: () => ExoEditor = () => exo_editor;
@@ -25,44 +26,71 @@
 		};
 		getFocus: () => number = () => focused;
 		setFocus: (v: number) => void = (v) => {
-			focused = v >= datas.length ? datas.length - 1 : v < 0 ? 0 : v;
+			focused = v >= this.getBlocks().length ? this.getBlocks().length - 1 : v;
 			if (focused !== edition) edition = -1;
 		};
 		getEdition: () => number = () => edition;
 		setEdition: (v: number) => void = (v) => {
-			if (this.getFocus() !== v) focused = v >= datas.length ? datas.length - 1 : v < 0 ? 0 : v;
-			edition = v >= datas.length ? datas.length - 1 : v < 0 ? 0 : v;
+			if (this.getFocus() !== v) {
+				focused = v >= this.getBlocks().length ? this.getBlocks().length - 1 : v;
+			}
+			edition = v >= this.getBlocks().length ? this.getBlocks().length - 1 : v;
+		};
+		getHovered: () => number = () => hovered;
+		setHovered: (v: number) => void = (v) => {
+			hovered = v >= this.getBlocks().length ? this.getBlocks().length - 1 : v;
 		};
 	}
 
-	let instance = new ExoInstanceImpl();
+	let container: HTMLElement;
 
-	let hovered = $state(-1);
-	let toolbar = $derived(focused === -1 ? hovered : focused);
+	function handleFocusOut(event: any) {
+		setTimeout(() => {
+			if (!container.contains(document.activeElement)) {
+				instance.setFocus(-1);
+				instance.setHovered(-1);
+			}
+		}, 0);
+	}
+
+	let instance = new ExoInstanceImpl();
 	let add_tooltip = $state(false);
 </script>
 
 <div
+	bind:this={container}
 	class="rounded-3x relative min-h-20 w-full bg-surface-50 py-10 text-body-color-dark shadow-2xl"
 	tabindex="-1"
 	role="none"
-	onclick={() => (focused = -1)}
+	onclick={() => {
+		instance.setFocus(-1);
+		instance.setHovered(-1);
+	}}
+	onfocusout={(e) => {
+		handleFocusOut(e);
+	}}
 >
-	{#each datas.map((v, i) => {
-		return { type: v.type, data: v.data, index: i };
+	{#each instance.getBlocks().map((v, i) => {
+		return { type: v.type, id: v.id, data: v.data, index: i };
 	}) as v}
-		{@const Component = exo_editor.modules[v.type].component}
+		{@const Component = instance.getEditor().modules[v.type].component}
 		<div
 			role="none"
-			class={'relative flex flex-row'}
+			class={'exo_block relative me-5 ms-20 flex-1'}
+			id={'exo_block_' + v.id}
 			onmouseenter={(e) => {
-				hovered = v.index;
+				instance.setHovered(v.index);
 			}}
 			onmouseleave={(e) => {
-				hovered = -1;
+				instance.setHovered(-1);
 			}}
 			onfocusin={() => {
-				focused = v.index;
+				instance.setFocus(v.index);
+				instance.setEdition(v.index);
+			}}
+			onfocusout={(e) => {
+				instance.setEdition(-1);
+				instance.setFocus(v.index);
 			}}
 			onclick={(e) => {
 				e.stopPropagation();
@@ -75,36 +103,35 @@
 				}
 			}}
 		>
-			<div class="me-5 flex w-20 justify-end">
-				{#if toolbar === v.index}
-					<BlockAdder open={add_tooltip} {instance} index={v.index} />
-				{/if}
-			</div>
-			<div
-				data-block-index={v.index}
-				data-type={v.type}
-				role="none"
-				id={'exo_block_' + v.index}
-				class="exo_block flex-1"
-				onfocusin={() => {
-					edition = v.index;
+			<Component
+				data={v.data}
+				index={v.index}
+				datas={instance.getBlocks()}
+				id={'exo_block_' + v.id}
+				{instance}
+				onchange={(value: any) => {
+					datas[v.index].data = value;
+					instance.setBlocks(datas);
 				}}
-				onfocusout={() => {
-					edition = -1;
-				}}
-			>
-				<Component
-					data={v.data}
-					index={v.index}
-					{instance}
-					{datas}
-					onchange={(value: any) => {
-						datas[v.index].data = value;
-					}}
-					focused={focused === v.index}
-					edition={edition === v.index}
-				/>
-			</div>
+				focused={focused === v.index}
+				edition={edition === v.index}
+			/>
 		</div>
 	{/each}
+
+	{#if toolbar !== -1}
+		<div
+			role="none"
+			class="absolute left-10"
+			id="toolbar"
+			style={'top: ' +
+				(document.getElementById('exo_block_' + instance.getBlocks()[toolbar].id)?.offsetTop || 0) +
+				'px'}
+			onmouseenter={() => {
+				instance.setHovered(toolbar);
+			}}
+		>
+			<BlockAdder open={add_tooltip} {instance} index={toolbar} />
+		</div>
+	{/if}
 </div>

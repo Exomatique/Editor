@@ -9,6 +9,8 @@ export default abstract class ExoInstance {
 	abstract setFocus: (v: number) => void;
 	abstract getEdition: () => number;
 	abstract setEdition: (v: number) => void;
+	abstract getHovered: () => number;
+	abstract setHovered: (v: number) => void;
 
 	insertBlockAt: (block: IExoModuleData, index: number, focus?: boolean) => void = (
 		block,

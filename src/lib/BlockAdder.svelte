@@ -18,11 +18,6 @@
 	contentBase="flex flex-col relative rounded-lg border-2 border-surface-300 bg-surface-50 p-2"
 	arrow
 	arrowBackground="!bg-surface-200 dark:!bg-surface-800"
-	onclick={() => {
-		setTimeout(() => {
-			instance.setFocus(index);
-		});
-	}}
 >
 	{#snippet trigger()}<i class="fa-solid fa-plus"></i>{/snippet}
 	{#snippet content()}
@@ -41,11 +36,13 @@
 						instance.insertBlockAt(
 							{
 								type: k,
-								data: instance.getEditor().modules[k].default_value()
+								data: instance.getEditor().modules[k].default_value(),
+								id: crypto.randomUUID().replace('-', '_')
 							},
 							index + 1
 						);
 						instance.setFocus(index + 1);
+						open = false;
 					}}
 				>
 					{@html instance.getEditor().modules[k].icon}
