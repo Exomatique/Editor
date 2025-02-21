@@ -1,8 +1,8 @@
-import type { Component, ComponentType } from 'svelte';
+import type { Component } from 'svelte';
 
-export default interface IExoModule<T extends ComponentType, U extends any> {
+export default interface IExoModule<U> {
 	type: string;
-	component: any;
+	component: Component<any>;
 	name: string;
 	icon: string;
 
