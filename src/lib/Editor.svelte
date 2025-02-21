@@ -3,13 +3,26 @@
 	import type ExoEditor from './ExoEditor.js';
 	import type IExoModuleData from './IExoModuleData.js';
 	import '@fortawesome/fontawesome-free/css/all.min.css';
+	import ExoInstance from './ExoInstance.js';
 
 	let { exo_editor }: { exo_editor: ExoEditor } = $props();
-
 	let datas: IExoModuleData[] = $state([{ type: 'text', data: '' }]);
+	let focused = $state(-1);
+
+	class ExoInstanceImpl extends ExoInstance {
+		getEditor: () => ExoEditor = () => exo_editor;
+		getBlocks: () => IExoModuleData[] = () => datas;
+		setBlocks: (blocks: IExoModuleData[]) => void = (blocks) => {
+			datas = blocks;
+		};
+		getFocus: () => number = () => focused;
+		setFocus: (v: number) => void = (v) =>
+			(focused = v >= datas.length ? datas.length - 1 : v < 0 ? 0 : v);
+	}
+
+	let exo_instance = new ExoInstanceImpl();
 
 	let hovered = $state(-1);
-	let focused = $state(-1);
 	let toolbar = $derived(focused === -1 ? hovered : focused);
 	let add_tooltip = $state(false);
 
@@ -82,20 +95,11 @@
 				class="exo_block flex-1"
 				onfocusin={() => (focused = v.index)}
 				onfocusout={() => (focused = -1)}
-				onkeydown={(e) => {
-					if (e.key === 'Enter' && !e.shiftKey) {
-						datas = datas.toSpliced(v.index + 1, 0, {
-							type: 'text',
-							data: exo_editor.modules['text'].default_value()
-						});
-						focused = v.index + 1;
-						e.preventDefault();
-					}
-				}}
 			>
 				<Component
 					data={v.data}
 					index={v.index}
+					instance={exo_instance}
 					{datas}
 					onchange={(value: any) => {
 						datas[v.index].data = value;
