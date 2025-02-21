@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TextData } from './TextData.js';
+	import type { MdData } from './MdData.js';
 	import remarkParse from 'remark-parse';
 	import remarkRehype from 'remark-rehype';
 	import rehypeSanitize from 'rehype-sanitize';
@@ -14,7 +14,7 @@
 		instance,
 		index
 	}: {
-		data: TextData;
+		data: MdData;
 		onchange: (v: string) => void;
 		edition: boolean;
 		instance: ExoInstance;
@@ -59,7 +59,7 @@
 			onkeydown={(e) => {
 				if (e.key === 'Enter' && !e.shiftKey) {
 					instance.insertBlockAt(
-						{ type: 'text', data: instance.getEditor().modules['text'].default_value() },
+						{ type: 'md', data: instance.getEditor().modules['md'].default_value() },
 						index + 1
 					);
 					instance.setEdition(index + 1);
