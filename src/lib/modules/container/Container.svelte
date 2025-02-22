@@ -100,7 +100,7 @@
 		>
 			<div class={module.container ? '' : ''}>
 				<Component
-					data={v.data}
+					bind:data={datas[v.index].data}
 					index={v.index}
 					datas={instance.getBlocks()}
 					id={'exo_block_' + v.id}
