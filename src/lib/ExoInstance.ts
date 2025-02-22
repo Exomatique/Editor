@@ -1,4 +1,5 @@
 import type ExoEditor from './ExoEditor.js';
+import type IExoModule from './IExoModule.js';
 import type IExoModuleData from './IExoModuleData.js';
 
 export default abstract class ExoInstance {
@@ -12,15 +13,24 @@ export default abstract class ExoInstance {
 	abstract getHovered: () => number;
 	abstract setHovered: (v: number) => void;
 
+	insertAndBuildBlockAt(
+		module: IExoModule<any> | string,
+		data: IExoModuleData | undefined,
+		index: number
+	) {
+		const editor = this.getEditor();
+		let real_module;
+		if (typeof module === 'string') real_module = editor.modules[module];
+		else real_module = module;
+		const block = editor.buildBlock(real_module as IExoModule<any>, data);
+		this.insertBlockAt(block, index);
+	}
+
 	insertBlockAt: (block: IExoModuleData, index: number, focus?: boolean) => void = (
 		block,
-		index,
-		focus
+		index
 	) => {
 		this.setBlocks(this.getBlocks().toSpliced(index, 0, block));
-		if (focus === true) {
-			this.setFocus(index);
-		}
 	};
 
 	removeBlockAt: (index: number) => void = (index) => {

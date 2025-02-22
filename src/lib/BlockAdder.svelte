@@ -33,14 +33,9 @@
 				<button
 					class="m-1 flex flex-1 flex-row items-center gap-5 rounded-lg px-4 hover:bg-surface-100"
 					onclick={() => {
-						instance.insertBlockAt(
-							{
-								type: k,
-								data: instance.getEditor().modules[k].default_value(),
-								id: crypto.randomUUID().replace('-', '_')
-							},
-							index + 1
-						);
+						const editor = instance.getEditor();
+						const block = editor.buildBlock(instance.getEditor().modules[k]);
+						instance.insertBlockAt(block, index + 1);
 						open = false;
 						const copy_index = index;
 						setTimeout(() => {

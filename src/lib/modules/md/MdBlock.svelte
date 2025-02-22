@@ -58,14 +58,7 @@
 			bind:innerText={data}
 			onkeydown={(e) => {
 				if (e.key === 'Enter' && !e.shiftKey) {
-					instance.insertBlockAt(
-						{
-							type: 'md',
-							data: instance.getEditor().modules['md'].default_value(),
-							id: crypto.randomUUID().replace('-', '_')
-						},
-						index + 1
-					);
+					instance.insertAndBuildBlockAt('md', undefined, index + 1);
 					instance.setEdition(index + 1);
 					e.preventDefault();
 					e.stopPropagation();
