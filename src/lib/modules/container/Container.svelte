@@ -66,7 +66,7 @@
 		{@const Component = instance.getEditor().modules[v.type].component}
 		<div
 			role="none"
-			class={'exo_block relative flex-1' + (!module.container ? 'pe-5 ps-20' : '')}
+			class={'exo_block relative flex-1' + (!module.container ? ' pe-5 ps-20' : '')}
 			id={'exo_block_' + v.id}
 			onmouseenter={(e: any) => {
 				instance.setHovered(v.index);
@@ -98,20 +98,22 @@
 				e.stopPropagation();
 			}}
 		>
-			<Component
-				data={v.data}
-				index={v.index}
-				datas={instance.getBlocks()}
-				id={'exo_block_' + v.id}
-				{instance}
-				onchange={(value: any) => {
-					datas[v.index].data = value;
-					instance.setBlocks(datas);
-					parent_onchange(datas);
-				}}
-				focused={focused === v.index}
-				edition={edition === v.index}
-			/>
+			<div class={module.container ? '' : ''}>
+				<Component
+					data={v.data}
+					index={v.index}
+					datas={instance.getBlocks()}
+					id={'exo_block_' + v.id}
+					{instance}
+					onchange={(value: any) => {
+						datas[v.index].data = value;
+						instance.setBlocks(datas);
+						parent_onchange(datas);
+					}}
+					focused={focused === v.index}
+					edition={edition === v.index}
+				/>
+			</div>
 		</div>
 	{/each}
 </div>

@@ -8,11 +8,11 @@ export interface ExoEditorData {
 
 export default class ExoEditor {
 	modules: { [id: string]: IExoModule<any> };
-	default_module: string;
+	default_module: IExoModule<any>;
 	constructor({ modules: modules, default_module: default_module }: ExoEditorData) {
 		this.modules = {};
-		this.default_module = default_module;
 		modules.forEach((v) => (this.modules[v.type] = v));
+		this.default_module = this.modules[default_module];
 	}
 
 	buildBlock(module: IExoModule<any>, data?: any): IExoModuleData {

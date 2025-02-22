@@ -10,9 +10,11 @@
 		data = $bindable()
 	}: { exo_editor: ExoEditor; data: IExoModuleData[] } = $props();
 
-	if (data.length === 0) {
-		data = [editor.buildBlock(editor.modules[editor.default_module])];
-	}
+	$effect(() => {
+		if (data.length === 0) {
+			data = [editor.buildBlock(editor.default_module)];
+		}
+	});
 
 	let edition = $state(-1);
 	let hovered = $state(-1);

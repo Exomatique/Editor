@@ -10,5 +10,5 @@ export default class ContainerModule implements IExoModule<ContainerData> {
 	component = Container;
 	name = 'Container';
 	icon = '<i class="fa-solid fa-c"></i>';
-	default_value = (editor: ExoEditor) => [editor.buildBlock(editor.modules[editor.default_module])];
+	default_value = (editor: ExoEditor) => [editor.buildBlock(editor.default_module)];
 }
