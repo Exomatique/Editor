@@ -25,7 +25,7 @@
 			<i class="fa-solid fa-magnifying-glass mx-2"></i>
 			<input class="bg-surface-100 outline-none" bind:value={filter} />
 		</div>
-		<div class="flex flex-1 flex-col gap-2">
+		<div class="ignore-focus flex flex-1 flex-col gap-2">
 			{#each Object.keys(instance.getEditor().modules).filter((v) => instance
 					.getEditor()
 					.modules[v].name.toLowerCase()
