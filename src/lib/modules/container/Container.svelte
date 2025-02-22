@@ -98,55 +98,51 @@
 				e.stopPropagation();
 			}}
 		>
-			<div class={module.container ? '' : ''}>
-				<Component
-					bind:data={datas[v.index].data}
-					index={v.index}
-					datas={instance.getBlocks()}
-					id={'exo_block_' + v.id}
-					{instance}
-					onchange={(value: any) => {
-						datas[v.index].data = value;
-						instance.setBlocks(datas);
-						parent_onchange(datas);
-					}}
-					focused={focused === v.index}
-					edition={edition === v.index}
-				/>
-			</div>
+			<Component
+				bind:data={datas[v.index].data}
+				index={v.index}
+				datas={instance.getBlocks()}
+				id={'exo_block_' + v.id}
+				{instance}
+				onchange={(value: any) => {
+					datas[v.index].data = value;
+					instance.setBlocks(datas);
+					parent_onchange(datas);
+				}}
+				focused={focused === v.index}
+				edition={edition === v.index}
+			/>
 		</div>
 	{/each}
 </div>
 
 {#if toolbar !== -1}
 	{@const module = instance.getEditor().modules[instance.getBlocks()[toolbar]?.type]}
-	{#if !module.container}
-		<div
-			role="none"
-			tabindex="-1"
-			class="absolute left-10"
-			id="toolbar ignore-focus"
-			style={'top: ' +
-				(document.getElementById('exo_block_' + instance.getBlocks()[toolbar].id)?.offsetTop || 0) +
-				'px'}
-			onmouseenter={() => {
-				instance.setHovered(toolbar);
-				parent_instance.setHovered(-1);
-			}}
-			onmouseleave={(e: any) => {
-				const id = instance.getBlocks()[toolbar]?.id;
-				if (id && !document.getElementById('exo_block_' + id)?.contains(e.relatedTarget))
-					instance.setHovered(-1);
-				parent_instance.setHovered(index);
-			}}
-			onfocusin={() => {
-				instance.setFocus(toolbar);
-			}}
-			onfocusout={(e) => {
-				e.stopPropagation();
-			}}
-		>
-			<BlockAdder open={add_tooltip} {instance} index={toolbar} />
-		</div>
-	{/if}
+	<div
+		role="none"
+		tabindex="-1"
+		class="absolute left-10"
+		id="toolbar ignore-focus"
+		style={'top: ' +
+			(document.getElementById('exo_block_' + instance.getBlocks()[toolbar].id)?.offsetTop || 0) +
+			'px'}
+		onmouseenter={() => {
+			instance.setHovered(toolbar);
+			parent_instance.setHovered(-1);
+		}}
+		onmouseleave={(e: any) => {
+			const id = instance.getBlocks()[toolbar]?.id;
+			if (id && !document.getElementById('exo_block_' + id)?.contains(e.relatedTarget))
+				instance.setHovered(-1);
+			parent_instance.setHovered(index);
+		}}
+		onfocusin={() => {
+			instance.setFocus(toolbar);
+		}}
+		onfocusout={(e) => {
+			e.stopPropagation();
+		}}
+	>
+		<BlockAdder open={add_tooltip} {instance} index={toolbar} />
+	</div>
 {/if}
