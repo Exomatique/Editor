@@ -1,4 +1,5 @@
 <script lang="ts">
+	// https://github.com/srsholmes/svelte-code-input
 	import type { MdData } from './MdData.js';
 	import remarkParse from 'remark-parse';
 	import remarkRehype from 'remark-rehype';
@@ -6,6 +7,12 @@
 	import rehypeStringify from 'rehype-stringify';
 	import { unified } from 'unified';
 	import type ExoInstance from '../../ExoInstance.js';
+
+	import hljs from 'highlight.js/lib/core';
+	import markdown from 'highlight.js/lib/languages/markdown';
+	import 'highlight.js/styles/github.css';
+	import CodeInput from '../../CodeInput.svelte';
+	hljs.registerLanguage('markdown', markdown);
 
 	let {
 		data = $bindable(),
@@ -32,10 +39,14 @@
 			.use(rehypeSanitize)
 			.use(rehypeStringify)
 			.process(data)
-			.then(String);
+			.then((v) => {
+				return v.value as string;
+			});
 	};
 
-	$effect(() => onchange(data));
+	$effect(() => {
+		onchange(data);
+	});
 
 	$effect(() => {
 		html_data_updater(data).then((v) => {
@@ -51,20 +62,13 @@
 
 <div class="relative">
 	{#if edition}
-		<div
-			role="none"
-			class="editable w-full flex-1 outline-none"
-			contenteditable
-			bind:innerText={data}
-			onkeydown={(e) => {
-				if (e.key === 'Enter' && !e.shiftKey) {
-					instance.insertAndBuildBlockAt('md', undefined, index + 1);
-					instance.setEdition(index + 1);
-					e.preventDefault();
-					e.stopPropagation();
-				}
-			}}
-		></div>
+		<CodeInput
+			language={'markdown'}
+			highlightjs={hljs}
+			bind:value={data}
+			onChange={() => {}}
+			placeholder={' '}
+		/>
 	{:else}
 		<div class="min-h-5 w-full flex-1 border-none outline-none" contenteditable>
 			{@html html_data}
