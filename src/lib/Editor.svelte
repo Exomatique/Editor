@@ -4,16 +4,16 @@
 	import '@fortawesome/fontawesome-free/css/all.min.css';
 	import ExoInstance from './ExoInstance.js';
 	import BlockAdder from './BlockAdder.svelte';
+	import Container from './modules/container/Container.svelte';
 
-	let { exo_editor }: { exo_editor: ExoEditor } = $props();
-	let datas: IExoModuleData[] = $state([]);
-	let focused = $state(-1);
+	let { exo_editor: editor }: { exo_editor: ExoEditor } = $props();
+	let datas: IExoModuleData[] = $state([editor.buildBlock(editor.modules[editor.default_module])]);
+	let focused = $state(0);
 	let edition = $state(-1);
 	let hovered = $state(-1);
-	let toolbar = $derived(focused === -1 ? hovered : focused);
 
 	class ExoInstanceImpl extends ExoInstance {
-		getEditor: () => ExoEditor = () => exo_editor;
+		getEditor: () => ExoEditor = () => editor;
 		getBlocks: () => IExoModuleData[] = () => datas;
 		setBlocks: (blocks: IExoModuleData[]) => void = (blocks) => {
 			datas = blocks;
@@ -36,95 +36,12 @@
 		};
 	}
 
-	let container: HTMLElement;
-
 	let instance = new ExoInstanceImpl();
-	let add_tooltip = $state(false);
 </script>
 
 <div
-	bind:this={container}
 	class="rounded-3x relative min-h-20 w-full bg-surface-50 py-10 text-body-color-dark shadow-2xl"
 	role="none"
 >
-	{#each instance.getBlocks().map((v, i) => {
-		return { type: v.type, id: v.id, data: v.data, index: i };
-	}) as v}
-		{@const module = instance.getEditor().modules[v.type]}
-		{@const Component = module.component}
-		<div
-			role="none"
-			class={'exo_block relative flex-1' + (!module.container ? 'pe-5 ps-20' : '')}
-			id={'exo_block_' + v.id}
-			onmouseenter={() => {
-				instance.setHovered(v.index);
-			}}
-			onmouseleave={(e: any) => {
-				if (
-					!Array(...document.getElementsByClassName('ignore-focus')).find((v) =>
-						v.contains(e.relatedTarget)
-					)
-				)
-					instance.setHovered(-1);
-			}}
-			onfocusin={() => {
-				instance.setFocus(v.index);
-				instance.setEdition(v.index);
-			}}
-			onfocusout={() => {
-				instance.setEdition(-1);
-			}}
-			onkeydown={(e) => {
-				if (e.key === 'ArrowDown' && e.ctrlKey) {
-					instance.setEdition(instance.getEdition() + 1);
-				} else if (e.key === 'ArrowUp' && e.ctrlKey) {
-					instance.setEdition(instance.getEdition() - 1);
-				}
-				e.stopPropagation();
-			}}
-		>
-			<Component
-				data={v.data}
-				index={v.index}
-				datas={instance.getBlocks()}
-				id={'exo_block_' + v.id}
-				{instance}
-				onchange={(value: any) => {
-					datas[v.index].data = value;
-					instance.setBlocks(datas);
-				}}
-				focused={focused === v.index}
-				edition={edition === v.index}
-			/>
-		</div>
-	{/each}
-
-	{#if toolbar !== -1}
-		{@const module = instance.getEditor().modules[instance.getBlocks()[toolbar]?.type]}
-		{#if !module.container || instance.getEdition() !== toolbar}
-			<div
-				role="none"
-				tabindex="-1"
-				class="absolute left-10"
-				id="toolbar ignore-focus"
-				style={'top: ' +
-					(document.getElementById('exo_block_' + instance.getBlocks()[toolbar].id)?.offsetTop ||
-						0) +
-					'px'}
-				onmouseenter={() => {
-					instance.setHovered(toolbar);
-				}}
-				onmouseleave={(e: any) => {
-					const id = instance.getBlocks()[toolbar]?.id;
-					if (id && !document.getElementById('exo_block_' + id)?.contains(e.relatedTarget))
-						instance.setHovered(-1);
-				}}
-				onfocusin={() => {
-					instance.setFocus(toolbar);
-				}}
-			>
-				<BlockAdder open={add_tooltip} {instance} index={toolbar} />
-			</div>
-		{/if}
-	{/if}
+	<Container data={datas} {instance} index={0} />
 </div>

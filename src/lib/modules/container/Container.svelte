@@ -18,7 +18,9 @@
 	let focused = $state(-1);
 	let edition = $state(-1);
 	let hovered = $state(-1);
-	let toolbar = $derived(focused === -1 ? hovered : focused);
+	let toolbar = $derived(
+		focused === -1 ? (parent_instance.getFocus() === index ? hovered : -1) : focused
+	);
 
 	class ExoInstanceImpl extends ExoInstance {
 		getEditor: () => ExoEditor = parent_instance.getEditor;
