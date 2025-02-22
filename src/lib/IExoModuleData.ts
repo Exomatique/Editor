@@ -3,3 +3,5 @@ export default interface IExoModuleData {
 	id: string;
 	data: any;
 }
+
+export type ExoData = IExoModuleData[];

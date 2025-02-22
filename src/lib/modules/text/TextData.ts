@@ -1,1 +1,3 @@
-export type TextData = string;
+import type { TextDocument } from 'typewriter-editor';
+
+export type TextData = TextDocument;

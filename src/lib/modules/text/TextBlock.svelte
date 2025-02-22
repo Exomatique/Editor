@@ -11,12 +11,18 @@
 		index
 	}: {
 		data: TextData;
-		onchange: (v: string) => void;
+		onchange: (v: TextData) => void;
 		edition: boolean;
 		instance: ExoInstance;
 		index: number;
 	} = $props();
 	const editor = new Editor();
+	editor.doc = data;
+
+	function save() {
+		data = editor.doc;
+		onchange(data);
+	}
 </script>
 
 <BubbleMenu {editor} let:active let:commands let:placement>
@@ -31,7 +37,15 @@
 		<button class="menu-button" class:active={active.italic} onclick={commands.italic}>I</button>
 	</div>
 </BubbleMenu>
-<div class="rich-text outline-none" use:asRoot={editor}></div>
+
+<div
+	role="textbox"
+	tabindex="-1"
+	class="rich-text outline-none"
+	use:asRoot={editor}
+	onkeydown={save}
+	onclick={save}
+></div>
 
 <style>
 	.menu {

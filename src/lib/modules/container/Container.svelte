@@ -8,18 +8,26 @@
 	let {
 		data: datas = $bindable(),
 		instance: parent_instance,
+		onchange: parent_onchange,
+		id: parent_id,
 		index
 	}: {
 		data: ContainerData;
+		id: string;
 		instance: ExoInstance;
 		index: number;
+		onchange: (v: ContainerData) => void;
 	} = $props();
 
 	let focused = $state(-1);
 	let edition = $state(-1);
 	let hovered = $state(-1);
 	let toolbar = $derived(
-		focused === -1 ? (parent_instance.getFocus() === index ? hovered : -1) : focused
+		focused === -1
+			? parent_instance.getFocus() === index || parent_instance.getFocus() === -1
+				? hovered
+				: -1
+			: focused
 	);
 
 	class ExoInstanceImpl extends ExoInstance {
@@ -50,7 +58,7 @@
 	let add_tooltip = $state(false);
 </script>
 
-<div>
+<div role="none">
 	{#each instance.getBlocks().map((v, i) => {
 		return { type: v.type, id: v.id, data: v.data, index: i };
 	}) as v}
@@ -62,7 +70,6 @@
 			id={'exo_block_' + v.id}
 			onmouseenter={(e: any) => {
 				instance.setHovered(v.index);
-				parent_instance.setHovered(-1);
 			}}
 			onmouseleave={(e: any) => {
 				if (
@@ -71,7 +78,6 @@
 					)
 				)
 					instance.setHovered(-1);
-				parent_instance.setHovered(index);
 			}}
 			onfocusin={() => {
 				instance.setFocus(v.index);
@@ -101,6 +107,7 @@
 				onchange={(value: any) => {
 					datas[v.index].data = value;
 					instance.setBlocks(datas);
+					parent_onchange(datas);
 				}}
 				focused={focused === v.index}
 				edition={edition === v.index}
@@ -111,7 +118,7 @@
 
 {#if toolbar !== -1}
 	{@const module = instance.getEditor().modules[instance.getBlocks()[toolbar]?.type]}
-	{#if !module.container || instance.getEdition() !== toolbar}
+	{#if !module.container}
 		<div
 			role="none"
 			tabindex="-1"

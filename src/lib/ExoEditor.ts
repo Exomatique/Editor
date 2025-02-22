@@ -19,7 +19,7 @@ export default class ExoEditor {
 		return {
 			type: module.type,
 			data: data || module.default_value(this),
-			id: crypto.randomUUID().replace('-', '_')
+			id: crypto.randomUUID().replaceAll('-', '_')
 		};
 	}
 }
