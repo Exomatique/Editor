@@ -62,10 +62,6 @@
 	class="rounded-3x relative min-h-20 w-full bg-surface-50 py-10 text-body-color-dark shadow-2xl"
 	tabindex="-1"
 	role="none"
-	onclick={() => {
-		instance.setFocus(-1);
-		instance.setHovered(-1);
-	}}
 	onfocusout={(e) => {
 		handleFocusOut(e);
 	}}
@@ -76,21 +72,22 @@
 		{@const Component = instance.getEditor().modules[v.type].component}
 		<div
 			role="none"
-			class={'exo_block relative me-5 ms-20 flex-1'}
+			class={'exo_block relative flex-1 pe-5 ps-20'}
 			id={'exo_block_' + v.id}
-			onmouseenter={(e) => {
+			onmouseenter={(e: any) => {
 				instance.setHovered(v.index);
 			}}
-			onmouseleave={(e) => {
-				instance.setHovered(-1);
+			onmouseleave={(e: any) => {
+				if (!document.getElementById('toolbar')?.contains(e.relatedTarget)) instance.setHovered(-1);
 			}}
 			onfocusin={() => {
 				instance.setFocus(v.index);
 				instance.setEdition(v.index);
 			}}
-			onfocusout={(e) => {
+			onfocusout={(e: any) => {
 				instance.setEdition(-1);
-				instance.setFocus(v.index);
+				if (!document.getElementById('toolbar')?.contains(e.relatedTarget))
+					instance.setHovered(v.index);
 			}}
 			onclick={(e) => {
 				e.stopPropagation();
@@ -122,6 +119,7 @@
 	{#if toolbar !== -1}
 		<div
 			role="none"
+			tabindex="-1"
 			class="absolute left-10"
 			id="toolbar"
 			style={'top: ' +
@@ -129,6 +127,17 @@
 				'px'}
 			onmouseenter={() => {
 				instance.setHovered(toolbar);
+			}}
+			onmouseleave={(e: any) => {
+				if (
+					!document
+						.getElementById('exo_block_' + instance.getBlocks()[toolbar].id)
+						?.contains(e.relatedTarget)
+				)
+					instance.setHovered(-1);
+			}}
+			onfocusout={(e) => {
+				e.stopPropagation();
 			}}
 		>
 			<BlockAdder open={add_tooltip} {instance} index={toolbar} />

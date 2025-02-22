@@ -18,6 +18,9 @@
 	contentBase="flex flex-col relative rounded-lg border-2 border-surface-300 bg-surface-50 p-2"
 	arrow
 	arrowBackground="!bg-surface-200 dark:!bg-surface-800"
+	onclick={() => {
+		instance.setFocus(index);
+	}}
 >
 	{#snippet trigger()}<i class="fa-solid fa-plus"></i>{/snippet}
 	{#snippet content()}
@@ -41,8 +44,12 @@
 							},
 							index + 1
 						);
-						instance.setFocus(index + 1);
 						open = false;
+						const copy_index = index;
+						setTimeout(() => {
+							instance.setFocus(copy_index + 1);
+							instance.setEdition(copy_index + 1);
+						}, 0);
 					}}
 				>
 					{@html instance.getEditor().modules[k].icon}
