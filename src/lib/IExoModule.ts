@@ -1,4 +1,5 @@
 import type { Component } from 'svelte';
+import type ExoEditor from './ExoEditor';
 
 export default interface IExoModule<U> {
 	type: string;
@@ -7,5 +8,5 @@ export default interface IExoModule<U> {
 	name: string;
 	icon: string;
 
-	default_value: () => U;
+	default_value: (editor: ExoEditor) => U;
 }
