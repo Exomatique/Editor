@@ -14,13 +14,10 @@
 <Popover
 	bind:open
 	positioning={{ placement: 'top' }}
-	triggerBase="preset-tonal px-2 rounded-lg"
+	triggerBase="ignore-focus preset-tonal px-2 rounded-lg"
 	contentBase="flex flex-col relative rounded-lg border-2 border-surface-300 bg-surface-50 p-2"
 	arrow
 	arrowBackground="!bg-surface-200 dark:!bg-surface-800"
-	onclick={() => {
-		instance.setFocus(index);
-	}}
 >
 	{#snippet trigger()}<i class="fa-solid fa-plus"></i>{/snippet}
 	{#snippet content()}

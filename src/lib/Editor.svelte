@@ -78,7 +78,12 @@
 				instance.setHovered(v.index);
 			}}
 			onmouseleave={(e: any) => {
-				if (!document.getElementById('toolbar')?.contains(e.relatedTarget)) instance.setHovered(-1);
+				if (
+					!Array(...document.getElementsByClassName('ignore-focus')).find((v) =>
+						v.contains(e.relatedTarget)
+					)
+				)
+					instance.setHovered(-1);
 			}}
 			onfocusin={() => {
 				instance.setFocus(v.index);
@@ -86,8 +91,6 @@
 			}}
 			onfocusout={(e: any) => {
 				instance.setEdition(-1);
-				if (!document.getElementById('toolbar')?.contains(e.relatedTarget))
-					instance.setHovered(v.index);
 			}}
 			onclick={(e) => {
 				e.stopPropagation();
@@ -121,7 +124,7 @@
 			role="none"
 			tabindex="-1"
 			class="absolute left-10"
-			id="toolbar"
+			id="toolbar ignore-focus"
 			style={'top: ' +
 				(document.getElementById('exo_block_' + instance.getBlocks()[toolbar].id)?.offsetTop || 0) +
 				'px'}
@@ -129,12 +132,12 @@
 				instance.setHovered(toolbar);
 			}}
 			onmouseleave={(e: any) => {
-				if (
-					!document
-						.getElementById('exo_block_' + instance.getBlocks()[toolbar].id)
-						?.contains(e.relatedTarget)
-				)
+				const id = instance.getBlocks()[toolbar]?.id;
+				if (id && !document.getElementById('exo_block_' + id)?.contains(e.relatedTarget))
 					instance.setHovered(-1);
+			}}
+			onfocusin={() => {
+				instance.setFocus(toolbar);
 			}}
 			onfocusout={(e) => {
 				e.stopPropagation();
