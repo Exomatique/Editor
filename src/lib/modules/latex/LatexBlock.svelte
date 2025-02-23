@@ -2,10 +2,11 @@
 	import type { MdData } from './LatexData.js';
 	import type ExoInstance from '../../ExoInstance.js';
 	import { parse, HtmlGenerator } from 'latex.js';
-	import './css/article.css';
-	import './css/book.css';
-	import './css/katex.css';
-	import './css/base.css';
+	// Not used for now, prefers to use tailwind to have a common rendering with markdown
+	// import './css/article.css';
+	// import './css/book.css';
+	// import './css/katex.css';
+	// import './css/base.css';
 
 	import hljs from 'highlight.js/lib/core';
 	import 'highlight.js/styles/github.css';
@@ -67,7 +68,7 @@
 		/>
 	{:else}
 		<div
-			class="latex min-h-5 w-full flex-1 border-none outline-none"
+			class="prose lg:prose-xl min-h-5 w-full flex-1 border-none outline-none"
 			contenteditable
 			spellcheck="false"
 		>

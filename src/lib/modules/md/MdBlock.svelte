@@ -12,6 +12,7 @@
 	import markdown from 'highlight.js/lib/languages/markdown';
 	import 'highlight.js/styles/github.css';
 	import CodeInput from '../../CodeInput.svelte';
+
 	hljs.registerLanguage('markdown', markdown);
 
 	let {
@@ -79,7 +80,7 @@
 			}}
 		/>
 	{:else}
-		<div class="min-h-5 w-full flex-1 border-none outline-none" contenteditable>
+		<div class="prose lg:prose-xl min-h-5 w-full flex-1 border-none outline-none" contenteditable>
 			{@html html_data}
 		</div>
 	{/if}

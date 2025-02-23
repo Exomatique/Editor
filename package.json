@@ -52,6 +52,7 @@
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^6.7.2",
+		"@tailwindcss/typography": "^0.5.16",
 		"highlight.js": "^11.11.1",
 		"latex.js": "^0.12.6",
 		"rehype-sanitize": "^6.0.0",
