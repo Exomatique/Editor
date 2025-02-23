@@ -63,6 +63,7 @@
 <div class="relative">
 	{#if edition}
 		<CodeInput
+			autoHeight
 			language={'markdown'}
 			highlightjs={hljs}
 			bind:value={data}

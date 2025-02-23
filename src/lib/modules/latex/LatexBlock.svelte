@@ -56,8 +56,9 @@
 </script>
 
 <div class="relative flex flex-1 flex-col">
-	{#if edition || true}
+	{#if edition}
 		<CodeInput
+			autoHeight
 			language={'latex'}
 			highlightjs={hljs}
 			bind:value={data}

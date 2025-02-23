@@ -1,4 +1,5 @@
 <script lang="ts">
+	// https://github.com/srsholmes/svelte-code-input/blob/develop/src/lib/CodeInput.svelte
 	import { onMount } from 'svelte';
 
 	let {
@@ -7,8 +8,10 @@
 		language,
 		onChange,
 		placeholder,
-		autoHeight
+		autoHeight,
+		resize
 	}: {
+		resize?: 'horitzontal' | 'vertical' | 'none' | 'auto';
 		highlightjs: any;
 		value: string;
 		language: string;
@@ -125,7 +128,7 @@
 	function handleMouseUp() {
 		const { height, width } = getTextareaSize();
 		if (height !== wrapperHeight || width !== wrapperWidth) {
-			manualResize = true;
+			if (resize && resize !== 'auto') manualResize = true;
 		}
 	}
 
@@ -157,7 +160,7 @@
 		class={'wrap'}
 	>
 		<textarea
-			class={`editable resize-none`}
+			class={`editable resize-${resize || 'auto'}`}
 			spellcheck={false}
 			onkeydown={handleKeyDown}
 			oninput={handleInput}
@@ -251,7 +254,23 @@
 		word-wrap: normal;
 	}
 
+	.wrap textarea.resize-both {
+		resize: both;
+	}
+
 	.wrap textarea.resize-none {
 		resize: none;
+	}
+
+	.wrap textarea.resize-auto {
+		resize: none;
+	}
+
+	.wrap textarea.resize-horizontal {
+		resize: horizontal;
+	}
+
+	.wrap textarea.resize-vertical {
+		resize: vertical;
 	}
 </style>
