@@ -36,7 +36,7 @@
 			return;
 		}
 		// Disabled resize
-		// watchResize();
+		watchResize();
 		if (autoHeight) {
 			setAutoHeight();
 		}
@@ -52,17 +52,24 @@
 
 	function setSizes() {
 		const { height, width } = getTextareaSize();
-		preElement.style.width = `${width}px`;
-		preElement.style.height = `${height}px`;
-		wrapperElement.style.width = `${width}px`;
-		wrapperElement.style.height = `${height}px`;
+		if (preElement) {
+			preElement.style.width = `${width}px`;
+			preElement.style.height = `${height}px`;
+		}
+		if (wrapperElement) {
+			wrapperElement.style.width = `${width}px`;
+			wrapperElement.style.height = `${height}px`;
+		}
 		const rem = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
 
-		outerElement.style.width = `${width + rem}px`;
-		outerElement.style.height = `${height + rem}px`;
+		if (outerElement) {
+			outerElement.style.width = `${width + rem}px`;
+			outerElement.style.height = `${height + rem}px`;
+		}
 	}
 
 	function getTextareaSize() {
+		if (textAreaElement == null) return { height: 0, width: 0 };
 		const { height, width } = textAreaElement.getBoundingClientRect();
 		return { height, width };
 	}
@@ -177,14 +184,12 @@
 	.wrap {
 		position: relative;
 		display: block;
-		min-height: 60px;
 		box-sizing: border-box;
 		position: relative;
 		top: 0;
 		left: 0;
 		display: block;
 		overflow: hidden;
-		min-height: 76px;
 		font-size: 16px;
 		font-family: monospace;
 		line-height: normal;
