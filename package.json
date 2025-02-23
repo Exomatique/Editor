@@ -55,11 +55,13 @@
 		"@tailwindcss/typography": "^0.5.16",
 		"highlight.js": "^11.11.1",
 		"latex.js": "^0.12.6",
+		"media-icons": "^1.1.5",
 		"rehype-sanitize": "^6.0.0",
 		"rehype-stringify": "^10.0.1",
 		"remark-parse": "^11.0.0",
 		"remark-rehype": "^11.1.1",
 		"typewriter-editor": "0.12.9",
-		"unified": "^11.0.5"
+		"unified": "^11.0.5",
+		"vidstack": "^1.12.13"
 	}
 }

@@ -10,6 +10,7 @@
 	import DefinitionModule from '../lib/modules/definition/DefinitionModule';
 	import LatexModule from '../lib/modules/latex/LatexModule';
 	import TheoremModule from '../lib/modules/theorem/TheoremModule';
+	import VideoModule from '../lib/modules/video/VideoModule';
 
 	const exo_editor = new ExoEditor({
 		modules: [
@@ -17,7 +18,8 @@
 			new DefinitionModule(),
 			new CorrectionModule(),
 			new TheoremModule(),
-			new LatexModule()
+			new LatexModule(),
+			new VideoModule()
 		],
 		default_module: 'md'
 	});
