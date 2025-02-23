@@ -69,6 +69,14 @@
 			bind:value={data}
 			onChange={() => {}}
 			placeholder={' '}
+			onkeydown={(e) => {
+				if (e.key === 'Enter' && !e.shiftKey) {
+					instance.insertAndBuildBlockAt('md', undefined, index + 1);
+					instance.setEdition(index + 1);
+					e.preventDefault();
+					e.stopPropagation();
+				}
+			}}
 		/>
 	{:else}
 		<div class="min-h-5 w-full flex-1 border-none outline-none" contenteditable>

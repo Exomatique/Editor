@@ -7,11 +7,13 @@
 		value = $bindable(),
 		language,
 		onChange,
+		onkeydown,
 		placeholder,
 		autoHeight,
 		resize
 	}: {
 		resize?: 'horitzontal' | 'vertical' | 'none' | 'auto';
+		onkeydown?: (e: KeyboardEvent) => void;
 		highlightjs: any;
 		value: string;
 		language: string;
@@ -112,6 +114,8 @@
 			// handleEnterKey(event, input_element);
 			onChange(input_element.value);
 		}
+
+		if (onkeydown) onkeydown(event);
 	}
 
 	async function handleInput(e: Event) {
