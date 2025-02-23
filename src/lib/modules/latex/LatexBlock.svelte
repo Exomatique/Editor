@@ -1,0 +1,81 @@
+<script lang="ts">
+	import type { MdData } from './LatexData.js';
+	import type ExoInstance from '../../ExoInstance.js';
+	import { parse, HtmlGenerator } from 'latex.js';
+	import './css/article.css';
+	import './css/book.css';
+	import './css/katex.css';
+	import './css/base.css';
+
+	import hljs from 'highlight.js/lib/core';
+	import 'highlight.js/styles/github.css';
+	import latex from 'highlight.js/lib/languages/latex';
+	import CodeInput from '../../CodeInput.svelte';
+	hljs.registerLanguage('latex', latex);
+
+	let {
+		data = $bindable(),
+		onchange,
+		edition,
+		instance,
+		id,
+		index
+	}: {
+		data: MdData;
+		onchange: (v: string) => void;
+		edition: boolean;
+		instance: ExoInstance;
+		id: string;
+		index: number;
+	} = $props();
+
+	let html_data = $state('');
+
+	const html_data_updater = async (data: string) => {
+		let generator = new HtmlGenerator({ hyphenate: false, styles: [] });
+		let doc = parse(data, { generator: generator }).htmlDocument();
+		const el: HTMLElement = doc.documentElement;
+		Array(...el.getElementsByTagName('link')).forEach((v) => {
+			if (v.rel === 'stylesheet') v.remove();
+		});
+		return el.outerHTML;
+	};
+
+	$effect(() => onchange(data));
+
+	$effect(() => {
+		html_data_updater(data).then((v) => {
+			html_data = v;
+		});
+	});
+
+	$effect(() => {
+		if (edition)
+			(document.getElementById(id)?.getElementsByClassName('editable')[0] as any).focus();
+	});
+</script>
+
+<div class="relative flex flex-1 flex-col">
+	{#if edition || true}
+		<CodeInput
+			language={'latex'}
+			highlightjs={hljs}
+			bind:value={data}
+			onChange={() => {}}
+			placeholder={' '}
+		/>
+	{:else}
+		<div
+			class="latex min-h-5 w-full flex-1 border-none outline-none"
+			contenteditable
+			spellcheck="false"
+		>
+			{@html html_data}
+		</div>
+	{/if}
+	{#key data}
+		{#if edition && (data.length === 0 || data === '\n')}
+			<div class="pointer-events-none absolute left-0 top-0 text-surface-400">Type text</div>
+		{/if}
+	{/key}
+</div>
