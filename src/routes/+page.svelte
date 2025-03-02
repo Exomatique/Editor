@@ -25,12 +25,10 @@
 	});
 
 	let data: ExoData = $state([]);
-
-	// $inspect(data);
 </script>
 
-<div class="relative flex w-full flex-1 flex-row justify-center">
-	<div class="absolute h-full w-3/4 flex-1 flex-row">
+<div class="relative flex h-full flex-1 justify-center">
+	<div class="absolute h-full w-3/4 grow flex-row px-20 text-neutral-950 scheme-light">
 		<Editor {exo_editor} bind:data />
 	</div>
 </div>

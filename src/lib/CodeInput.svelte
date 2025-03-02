@@ -175,7 +175,7 @@
 		></textarea>
 		<!-- Keep this as a single line to preserve whitespace -->
 		<pre bind:this={preElement} class={`language-${language}`} aria-hidden={true}><div
-				class="code-highlighted">{@html codeTokens}</div></pre>
+				class="code-highlighted text-neutral-950">{@html codeTokens}</div></pre>
 	</div>
 </div>
 
@@ -197,7 +197,7 @@
 		left: 0;
 		display: block;
 		overflow: hidden;
-		font-size: 16px;
+		font-size: 18px;
 		font-family: monospace;
 		line-height: normal;
 		tab-size: 2;

@@ -68,7 +68,7 @@
 		/>
 	{:else}
 		<div
-			class="prose lg:prose-xl min-h-5 w-full flex-1 border-none outline-none"
+			class="prose min-h-5 w-full flex-1 border-none outline-none lg:prose-xl"
 			contenteditable
 			spellcheck="false"
 		>

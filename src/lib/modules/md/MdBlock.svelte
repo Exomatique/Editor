@@ -86,7 +86,7 @@
 	{/if}
 	{#key data}
 		{#if edition && (data.length === 0 || data === '\n')}
-			<div class="pointer-events-none absolute left-0 top-0 text-surface-400">Type text</div>
+			<div class="text-surface-400 pointer-events-none absolute top-0 left-0">Type text</div>
 		{/if}
 	{/key}
 </div>

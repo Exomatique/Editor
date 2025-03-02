@@ -106,9 +106,9 @@
 	.page {
 		display: grid;
 
-		grid-template-columns: [margin-left] var(--marginleftwidth) [body] var(
-				--textwidth
-			) [margin-right] var(--marginrightwidth);
+		grid-template-columns:
+			[margin-left] var(--marginleftwidth) [body] var(--textwidth)
+			[margin-right] var(--marginrightwidth);
 		grid-template-rows: auto;
 
 		margin: 0;

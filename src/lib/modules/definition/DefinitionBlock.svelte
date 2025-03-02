@@ -28,7 +28,7 @@
 		background-color: rgb(59 130 246 / var(--tw-bg-opacity, 1));
 	}
 
-	:global(.semantic-definition .title-content) {
+	:global(.semantic-definition) {
 		--tw-bg-opacity: 1;
 		color: white;
 	}

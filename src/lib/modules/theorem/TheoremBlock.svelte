@@ -28,7 +28,7 @@
 		background-color: rgb(248 113 113 / var(--tw-bg-opacity, 1));
 	}
 
-	:global(.semantic-theorem .title-content) {
+	:global(.semantic-definition) {
 		--tw-bg-opacity: 1;
 		color: white;
 	}

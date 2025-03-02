@@ -66,7 +66,7 @@
 		{@const Component = instance.getEditor().modules[v.type].component}
 		<div
 			role="none"
-			class={'exo_block relative flex-1' + (!module.container ? ' pe-5 ps-20' : '')}
+			class={'exo_block relative flex-1' + (!module.container ? ' ps-20 pe-5' : '')}
 			id={'exo_block_' + v.id}
 			onmouseenter={(e: any) => {
 				instance.setHovered(v.index);

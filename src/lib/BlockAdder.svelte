@@ -4,7 +4,7 @@
 	import BlockSelector from './BlockSelector.svelte';
 
 	let {
-		open = $bindable(),
+		open = false,
 		instance,
 		index
 	}: { open: boolean; instance: ExoInstance; index: number } = $props();
@@ -13,10 +13,9 @@
 </script>
 
 <Popover
-	bind:open
 	positioning={{ placement: 'top' }}
-	triggerBase="ignore-focus preset-tonal px-2 rounded-lg"
-	contentBase="flex flex-col relative rounded-lg border-2 border-surface-300 bg-surface-50 p-2"
+	triggerBase="ignore-focus preset-filled px-2 rounded-lg"
+	contentBase="scheme-light text-neutral-950 flex flex-col relative rounded-lg border-2 border-surface-300 bg-surface-50 p-2"
 	arrow
 	arrowBackground="!bg-surface-200 dark:!bg-surface-800"
 >
