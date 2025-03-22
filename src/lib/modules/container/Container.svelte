@@ -1,5 +1,6 @@
 <script lang="ts">
 	import BlockAdder from '../../BlockAdder.svelte';
+	import BlockMover from '../../BlockMover.svelte';
 	import type ExoEditor from '../../ExoEditor';
 	import ExoInstance from '../../ExoInstance';
 	import type IExoModuleData from '../../IExoModuleData';
@@ -60,6 +61,7 @@
 
 	const instance = new ExoInstanceImpl();
 	let add_tooltip = $state(false);
+	let move_tooltip = $state(false);
 </script>
 
 <div role="none">
@@ -126,7 +128,7 @@
 	<div
 		role="none"
 		tabindex="-1"
-		class="absolute left-10"
+		class="absolute left-2"
 		id="toolbar ignore-focus"
 		style={'top: ' +
 			(document.getElementById('exo_block_' + instance.getBlocks()[toolbar].id)?.offsetTop || 0) +
@@ -149,5 +151,6 @@
 		}}
 	>
 		<BlockAdder open={add_tooltip} {instance} index={toolbar} />
+		<BlockMover open={move_tooltip} {instance} index={toolbar} />
 	</div>
 {/if}
