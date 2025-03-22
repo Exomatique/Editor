@@ -80,7 +80,7 @@
 			}}
 		/>
 	{:else}
-		<div class="prose lg:prose-xl min-h-5 w-full flex-1 border-none outline-none" contenteditable>
+		<div class="prose lg:prose-xl min-h-5 w-full flex-1 border-none outline-none" tabindex="-1">
 			{@html html_data}
 		</div>
 	{/if}

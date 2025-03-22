@@ -7,8 +7,9 @@
 
 	let {
 		exo_editor: editor,
-		data = $bindable()
-	}: { exo_editor: ExoEditor; data: IExoModuleData[] } = $props();
+		data = $bindable(),
+		editable = false
+	}: { exo_editor: ExoEditor; data: IExoModuleData[]; editable?: boolean } = $props();
 
 	$effect(() => {
 		if (data.length === 0) {
@@ -40,8 +41,8 @@
 </script>
 
 <div
-	class="rounded-3x relative min-h-20 w-full bg-surface-50 py-10 text-body-color-dark shadow-2xl"
+	class="rounded-3x bg-surface-50 text-body-color-dark relative min-h-20 w-full py-10 shadow-2xl"
 	role="none"
 >
-	<Container bind:data {instance} index={0} id={'document'} onchange={() => {}} />
+	<Container bind:data {instance} index={0} id={'document'} onchange={() => {}} {editable} />
 </div>

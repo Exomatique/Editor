@@ -63,7 +63,6 @@
 		"rehype-stringify": "^10.0.1",
 		"remark-parse": "^11.0.0",
 		"remark-rehype": "^11.1.1",
-		"typewriter-editor": "0.12.9",
 		"unified": "^11.0.5",
 		"vidstack": "^1.12.13"
 	}

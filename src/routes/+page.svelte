@@ -5,7 +5,6 @@
 	import type IExoModuleData from '$lib/IExoModuleData';
 	import ContainerModule from '$lib/modules/container/ContainerModule';
 	import MdModule from '$lib/modules/md/MdModule.js';
-	import TextModule from '$lib/modules/text/TextModule';
 	import CorrectionModule from '../lib/modules/correction/CorrectionModule';
 	import DefinitionModule from '../lib/modules/definition/DefinitionModule';
 	import LatexModule from '../lib/modules/latex/LatexModule';
@@ -24,11 +23,23 @@
 		default_module: 'md'
 	});
 
-	let data: ExoData = $state([]);
+	let data: ExoData = $state([
+		{ type: 'md', data: 'Bonjour ', id: '91a950d3_1c43_4529_bac6_bc4e5786471a' },
+		{ type: 'md', data: 'Ceci est un test', id: '83911ad5_0519_4446_b07d_eba781a7322e' },
+		{ type: 'md', data: '', id: '90b03865_7ba8_49e2_8157_ae031284ca2e' }
+	]);
+
+	let editable = $state(false);
 </script>
 
 <div class="relative flex h-full flex-1 justify-center">
 	<div class="absolute h-full w-3/4 grow flex-row px-20 text-neutral-950 scheme-light">
-		<Editor {exo_editor} bind:data />
+		<Editor {editable} {exo_editor} bind:data />
 	</div>
 </div>
+
+{#if editable}
+	<button class="btn" onclick={() => (editable = false)}>View</button>
+{:else}
+	<button class="btn" onclick={() => (editable = true)}>Edit</button>
+{/if}

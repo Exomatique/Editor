@@ -9,7 +9,8 @@
 		semantic_name,
 		instance,
 		index,
-		id
+		id,
+		editable
 	}: {
 		semantic_name: string;
 		title: string;
@@ -17,6 +18,7 @@
 		instance: ExoInstance;
 		index: number;
 		id: string;
+		editable: boolean;
 	} = $props();
 
 	$effect(() => {
@@ -42,6 +44,7 @@
 			{instance}
 			{id}
 			{index}
+			{editable}
 			onchange={(v) => {
 				blocks = v;
 			}}

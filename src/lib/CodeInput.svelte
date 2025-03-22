@@ -119,7 +119,6 @@
 	}
 
 	async function handleInput(e: Event) {
-		// console.log('handleInput', e.target.value);
 		onChange((e.target as HTMLTextAreaElement).value);
 	}
 

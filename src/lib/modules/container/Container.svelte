@@ -10,12 +10,14 @@
 		instance: parent_instance,
 		onchange: parent_onchange,
 		id: parent_id,
+		editable,
 		index
 	}: {
 		data: ContainerData;
 		id: string;
 		instance: ExoInstance;
 		index: number;
+		editable: boolean;
 		onchange: (v: ContainerData) => void;
 	} = $props();
 
@@ -23,11 +25,13 @@
 	let edition = $state(-1);
 	let hovered = $state(-1);
 	let toolbar = $derived(
-		focused === -1
-			? parent_instance.getFocus() === index || parent_instance.getFocus() === -1
-				? hovered
-				: -1
-			: focused
+		editable
+			? focused === -1
+				? parent_instance.getFocus() === index || parent_instance.getFocus() === -1
+					? hovered
+					: -1
+				: focused
+			: -1
 	);
 
 	class ExoInstanceImpl extends ExoInstance {
@@ -41,7 +45,7 @@
 			focused = v >= this.getBlocks().length ? this.getBlocks().length - 1 : v;
 			if (focused !== edition) edition = -1;
 		};
-		getEdition: () => number = () => edition;
+		getEdition: () => number = () => (editable ? edition : -1);
 		setEdition: (v: number) => void = (v) => {
 			if (this.getFocus() !== v) {
 				focused = v >= this.getBlocks().length ? this.getBlocks().length - 1 : v;
@@ -109,8 +113,9 @@
 					instance.setBlocks(datas);
 					parent_onchange(datas);
 				}}
-				focused={focused === v.index}
-				edition={edition === v.index}
+				{editable}
+				focused={instance.getFocus() === v.index}
+				edition={instance.getEdition() === v.index}
 			/>
 		</div>
 	{/each}

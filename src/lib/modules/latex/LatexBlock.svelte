@@ -68,8 +68,8 @@
 		/>
 	{:else}
 		<div
-			class="prose min-h-5 w-full flex-1 border-none outline-none lg:prose-xl"
-			contenteditable
+			class="prose lg:prose-xl min-h-5 w-full flex-1 border-none outline-none"
+			tabindex="-1"
 			spellcheck="false"
 		>
 			{@html html_data}
@@ -77,7 +77,13 @@
 	{/if}
 	{#key data}
 		{#if edition && (data.length === 0 || data === '\n')}
-			<div class="pointer-events-none absolute left-0 top-0 text-surface-400">Type text</div>
+			<div class="text-surface-400 pointer-events-none absolute top-0 left-0">Type text</div>
 		{/if}
 	{/key}
 </div>
+
+<style>
+	:global(.katex-html) {
+		display: none;
+	}
+</style>
