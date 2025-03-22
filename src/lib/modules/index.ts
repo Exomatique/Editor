@@ -4,6 +4,5 @@ export * from './definition';
 export * from './latex';
 export * from './md';
 export * from './semantic';
-export * from './text';
 export * from './theorem';
 export * from './video';

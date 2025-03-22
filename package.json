@@ -1,6 +1,6 @@
 {
 	"name": "@exomatique/editor",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"license": "MIT",
 	"scripts": {
 		"generate-exports": "node generate-module-exports.mjs",
