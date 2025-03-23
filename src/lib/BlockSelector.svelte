@@ -23,7 +23,7 @@
 		bind:value={filter}
 	/>
 </div>
-<div class="ignore-focus flex flex-1 flex-col gap-2">
+<div class="ignore-focus flex max-h-40 flex-1 flex-col overflow-scroll">
 	{#each Object.keys(instance.getEditor().modules).filter((v) => instance
 			.getEditor()
 			.modules[v].name.toLowerCase()
@@ -42,7 +42,9 @@
 				}, 0);
 			}}
 		>
-			{@html instance.getEditor().modules[k].icon}
+			<div class="flex h-6 w-6 items-center justify-center">
+				{@html instance.getEditor().modules[k].icon}
+			</div>
 			{instance.getEditor().modules[k].name}
 		</button>
 	{/each}
