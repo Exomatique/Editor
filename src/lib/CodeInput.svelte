@@ -68,8 +68,8 @@
 		const rem = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
 
 		if (outerElement) {
-			outerElement.style.width = `${width + rem}px`;
-			outerElement.style.height = `${height + rem}px`;
+			// outerElement.style.width = `${width - 1}px`;
+			// outerElement.style.height = `${height - 1}px`;
 		}
 	}
 
@@ -185,6 +185,7 @@
 
 	.outer-wrapper * {
 		box-sizing: border-box;
+		font: inherit;
 	}
 
 	.wrap {
@@ -196,9 +197,7 @@
 		left: 0;
 		display: block;
 		overflow: hidden;
-		font-size: 18px;
-		font-family: monospace;
-		line-height: normal;
+		font-size: inherit !important;
 		tab-size: 2;
 		caret-color: darkgrey;
 		white-space: pre;
@@ -214,7 +213,6 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		font-family: monospace;
 		font-size: inherit !important;
 		line-height: inherit !important;
 		/* background: transparent; */

@@ -1,0 +1,9 @@
+.exoeditor * {
+    --content-line-height: 20px;
+    font-family: 'Courier New', Courier, monospace, 'Font Awesome\ 5 Free';
+    font-size: 20px;
+}
+
+.exoeditor .content-icon {
+    height: var(--content-line-height);
+}

@@ -4,6 +4,7 @@
 	import '@fortawesome/fontawesome-free/css/all.min.css';
 	import ExoInstance from './ExoInstance.js';
 	import Container from './modules/container/Container.svelte';
+	import './content.css';
 
 	let {
 		exo_editor: editor,
@@ -41,7 +42,7 @@
 </script>
 
 <div
-	class="rounded-3x bg-surface-50 text-body-color-dark relative min-h-20 w-full py-10 shadow-2xl"
+	class="exoeditor rounded-3x bg-surface-50 text-body-color-dark relative min-h-20 w-full py-10 shadow-2xl"
 	role="none"
 >
 	<Container bind:data {instance} index={0} id={'document'} onchange={() => {}} {editable} />

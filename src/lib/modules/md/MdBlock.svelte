@@ -80,13 +80,16 @@
 			}}
 		/>
 	{:else}
-		<div class="prose lg:prose-xl min-h-5 w-full flex-1 border-none outline-none" tabindex="-1">
+		<div class="min-h-5 w-full flex-1 border-none p-0 outline-none" tabindex="-1">
+			{#if data.length === 0 || data === '\n'}
+				<p class="invisible">Text for alignment</p>
+			{/if}
 			{@html html_data}
 		</div>
 	{/if}
 	{#key data}
 		{#if edition && (data.length === 0 || data === '\n')}
-			<div class="text-surface-400 pointer-events-none absolute top-0 left-0">Type text</div>
+			<div class="pointer-events-none absolute top-0 left-0 opacity-40">Type text</div>
 		{/if}
 	{/key}
 </div>

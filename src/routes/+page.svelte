@@ -29,7 +29,7 @@
 		{ type: 'md', data: '', id: '90b03865_7ba8_49e2_8157_ae031284ca2e' }
 	]);
 
-	let editable = $state(false);
+	let editable = $state(true);
 </script>
 
 <div class="relative flex h-full flex-1 justify-center">
