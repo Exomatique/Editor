@@ -12,6 +12,9 @@
 	import markdown from 'highlight.js/lib/languages/markdown';
 	import 'highlight.js/styles/github.css';
 	import CodeInput from '../../CodeInput.svelte';
+	import remarkGfm from 'remark-gfm';
+	import rehypeMathjax from 'rehype-mathjax';
+	import remarkMath from 'remark-math';
 
 	hljs.registerLanguage('markdown', markdown);
 
@@ -36,8 +39,11 @@
 	const html_data_updater = async (data: string) => {
 		return await unified()
 			.use(remarkParse)
+			.use(remarkMath)
+			.use(remarkGfm)
 			.use(remarkRehype)
 			.use(rehypeSanitize)
+			.use(rehypeMathjax)
 			.use(rehypeStringify)
 			.process(data)
 			.then((v) => {
@@ -93,3 +99,12 @@
 		{/if}
 	{/key}
 </div>
+
+<style>
+	:global(mjx-container) {
+		display: inline-grid;
+		overflow-x: auto;
+		overflow-y: hidden;
+		max-width: 100%;
+	}
+</style>
