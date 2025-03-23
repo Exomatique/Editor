@@ -7,3 +7,8 @@
 .exoeditor .content-icon {
     height: var(--content-line-height);
 }
+
+*::selection {
+    color: black;
+    background-color: lightblue;
+}
