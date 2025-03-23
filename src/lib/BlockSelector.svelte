@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type ExoInstance from './ExoInstance';
 
 	let {
@@ -7,11 +8,20 @@
 		index,
 		onclick
 	}: { filter: string; instance: ExoInstance; index: number; onclick?: () => void } = $props();
+
+	let inputEl: HTMLInputElement;
+
+	onMount(() => setTimeout(() => inputEl.focus()));
 </script>
 
-<div class="m-2 rounded-lg bg-surface-100 p-1">
+<div class="bg-surface-100 m-2 rounded-lg p-1">
 	<i class="fa-solid fa-magnifying-glass mx-2"></i>
-	<input class="bg-surface-100 outline-none" bind:value={filter} />
+	<input
+		onfocus={() => console.log('h')}
+		bind:this={inputEl}
+		class="bg-surface-100 outline-none"
+		bind:value={filter}
+	/>
 </div>
 <div class="ignore-focus flex flex-1 flex-col gap-2">
 	{#each Object.keys(instance.getEditor().modules).filter((v) => instance
@@ -19,7 +29,7 @@
 			.modules[v].name.toLowerCase()
 			.startsWith(filter.toLowerCase())) as k}
 		<button
-			class="m-1 flex flex-1 flex-row items-center gap-5 rounded-lg px-4 hover:bg-surface-100"
+			class="hover:bg-surface-100 m-1 flex flex-1 flex-row items-center gap-5 rounded-lg px-4"
 			onclick={() => {
 				const editor = instance.getEditor();
 				const block = editor.buildBlock(instance.getEditor().modules[k]);

@@ -55,7 +55,7 @@
 
 <Popover
 	positioning={{ placement: 'top' }}
-	triggerBase="ignore-focus preset-filled px-2 rounded-lg"
+	triggerBase="hover:bg-surface-100 ignore-focus px-2 rounded-lg"
 	contentBase="scheme-light text-neutral-950 flex flex-col relative rounded-lg border-2 border-surface-300 bg-surface-50 p-2"
 	arrow
 	arrowBackground="!bg-surface-200 dark:!bg-surface-800"

@@ -86,6 +86,7 @@
 					instance.setHovered(-1);
 			}}
 			onfocusin={() => {
+				console.log('h');
 				instance.setFocus(v.index);
 				instance.setEdition(v.index);
 			}}
@@ -128,7 +129,7 @@
 	<div
 		role="none"
 		tabindex="-1"
-		class="absolute left-2"
+		class="absolute left-3 flex flex-row gap-1"
 		id="toolbar ignore-focus"
 		style={'top: ' +
 			(document.getElementById('exo_block_' + instance.getBlocks()[toolbar].id)?.offsetTop || 0) +
