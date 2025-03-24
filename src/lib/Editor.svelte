@@ -13,8 +13,12 @@
 	}: { exo_editor: ExoEditor; data: IExoModuleData[]; editable?: boolean } = $props();
 
 	$effect(() => {
-		if (data.length === 0) {
-			data = [editor.buildBlock(editor.default_module)];
+		if (
+			data.length === 0 ||
+			data[data.length - 1].type !== editor.default_module.type ||
+			data[data.length - 1].data !== editor.buildBlock(editor.default_module).data
+		) {
+			data = data.concat([editor.buildBlock(editor.default_module)]);
 		}
 	});
 

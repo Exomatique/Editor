@@ -65,7 +65,11 @@
 	});
 
 	$effect(() => {
-		if (edition)
+		if (
+			edition &&
+			document.getElementById(id) &&
+			document.getElementById(id)?.getElementsByClassName('editable').length != 0
+		)
 			(document.getElementById(id)?.getElementsByClassName('editable')[0] as any).focus();
 	});
 </script>
