@@ -15,6 +15,9 @@
 	import remarkGfm from 'remark-gfm';
 	import rehypeMathjax from 'rehype-mathjax';
 	import remarkMath from 'remark-math';
+	import BlockAdder from '../../BlockAdder.svelte';
+	import BlockSelector from '../../BlockSelector.svelte';
+	import { Popover } from '@skeletonlabs/skeleton-svelte';
 
 	hljs.registerLanguage('markdown', markdown);
 
@@ -82,6 +85,13 @@
 					instance.setEdition(index + 1);
 					e.preventDefault();
 					e.stopPropagation();
+				} else if (e.key === '/' && data.length == 0) {
+					e.preventDefault();
+
+					(
+						document.getElementsByClassName('block_adder_snipper')[0]
+							.parentElement as HTMLButtonElement
+					).click();
 				}
 			}}
 		/>
