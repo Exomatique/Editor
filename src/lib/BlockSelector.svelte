@@ -16,12 +16,7 @@
 
 <div class="bg-surface-100 m-2 rounded-lg p-1">
 	<i class="fa-solid fa-magnifying-glass mx-2"></i>
-	<input
-		onfocus={() => console.log('h')}
-		bind:this={inputEl}
-		class="bg-surface-100 outline-none"
-		bind:value={filter}
-	/>
+	<input bind:this={inputEl} class="bg-surface-100 outline-none" bind:value={filter} />
 </div>
 <div class="ignore-focus flex max-h-40 flex-1 flex-col overflow-scroll">
 	{#each Object.keys(instance.getEditor().modules).filter((v) => instance

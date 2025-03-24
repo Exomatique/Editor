@@ -1,10 +1,12 @@
 <script lang="ts">
+	import { ssrExportAllKey } from 'vite/module-runner';
 	import BlockAdder from '../../BlockAdder.svelte';
 	import BlockMover from '../../BlockMover.svelte';
 	import type ExoEditor from '../../ExoEditor';
 	import ExoInstance from '../../ExoInstance';
 	import type IExoModuleData from '../../IExoModuleData';
 	import type { ContainerData } from './ContainerData';
+	import { preventDefault } from 'svelte/legacy';
 
 	let {
 		data: datas = $bindable(),
@@ -86,7 +88,6 @@
 					instance.setHovered(-1);
 			}}
 			onfocusin={() => {
-				console.log('h');
 				instance.setFocus(v.index);
 				instance.setEdition(v.index);
 			}}
@@ -97,9 +98,18 @@
 				e.stopPropagation();
 			}}
 			onkeydown={(e) => {
-				if (e.key === 'ArrowDown' && e.ctrlKey) {
+				if (editable && e.ctrlKey && e.shiftKey && e.key === 'ArrowDown') {
+					instance.moveDown(instance.getFocus());
+					e.preventDefault();
+				} else if (editable && e.ctrlKey && e.shiftKey && e.key === 'ArrowUp') {
+					instance.moveUp(instance.getFocus());
+					e.preventDefault();
+				} else if (editable && e.ctrlKey && e.shiftKey && e.key === 'Delete') {
+					instance.delete(instance.getFocus());
+					e.preventDefault();
+				} else if (editable && e.key === 'ArrowDown' && e.ctrlKey) {
 					instance.setEdition(instance.getEdition() + 1);
-				} else if (e.key === 'ArrowUp' && e.ctrlKey) {
+				} else if (editable && e.key === 'ArrowUp' && e.ctrlKey) {
 					instance.setEdition(instance.getEdition() - 1);
 				}
 				e.stopPropagation();
@@ -126,32 +136,34 @@
 
 {#if toolbar !== -1}
 	{@const module = instance.getEditor().modules[instance.getBlocks()[toolbar]?.type]}
-	<div
-		role="none"
-		tabindex="-1"
-		class="absolute left-3 flex flex-row gap-1"
-		id="toolbar ignore-focus"
-		style={'top: ' +
-			(document.getElementById('exo_block_' + instance.getBlocks()[toolbar].id)?.offsetTop || 0) +
-			'px'}
-		onmouseenter={() => {
-			instance.setHovered(toolbar);
-			parent_instance.setHovered(-1);
-		}}
-		onmouseleave={(e: any) => {
-			const id = instance.getBlocks()[toolbar]?.id;
-			if (id && !document.getElementById('exo_block_' + id)?.contains(e.relatedTarget))
-				instance.setHovered(-1);
-			parent_instance.setHovered(index);
-		}}
-		onfocusin={() => {
-			instance.setFocus(toolbar);
-		}}
-		onfocusout={(e) => {
-			e.stopPropagation();
-		}}
-	>
-		<BlockAdder open={add_tooltip} {instance} index={toolbar} />
-		<BlockMover open={move_tooltip} {instance} index={toolbar} />
-	</div>
+	{#key focused}
+		<div
+			role="none"
+			tabindex="-1"
+			class="absolute left-3 flex flex-row gap-1"
+			id="toolbar ignore-focus"
+			style={'top: ' +
+				(document.getElementById('exo_block_' + instance.getBlocks()[toolbar].id)?.offsetTop || 0) +
+				'px'}
+			onmouseenter={() => {
+				instance.setHovered(toolbar);
+				parent_instance.setHovered(-1);
+			}}
+			onmouseleave={(e: any) => {
+				const id = instance.getBlocks()[toolbar]?.id;
+				if (id && !document.getElementById('exo_block_' + id)?.contains(e.relatedTarget))
+					instance.setHovered(-1);
+				parent_instance.setHovered(index);
+			}}
+			onfocusin={() => {
+				instance.setFocus(toolbar);
+			}}
+			onfocusout={(e) => {
+				e.stopPropagation();
+			}}
+		>
+			<BlockAdder open={add_tooltip} {instance} index={toolbar} />
+			<BlockMover open={move_tooltip} {instance} index={toolbar} />
+		</div>
+	{/key}
 {/if}

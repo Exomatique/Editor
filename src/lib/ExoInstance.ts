@@ -39,4 +39,66 @@ export default abstract class ExoInstance {
 		if (old_focus >= index) this.setFocus(old_focus - 1);
 		this.setBlocks(this.getBlocks().filter((v, i) => i !== index));
 	};
+
+	moveUp(index: number) {
+		if (index <= 0) return;
+		let blocks = this.getBlocks();
+
+		let previous = blocks[index - 1];
+		let current = blocks[index];
+
+		this.setBlocks(
+			blocks.map((v, i) => {
+				if (i === index) return previous;
+				if (i === index - 1) return current;
+				return v;
+			})
+		);
+
+		const edition = this.getEdition();
+		this.setFocus(index - 1);
+		if (edition === index) this.setEdition(index - 1);
+	}
+
+	delete(index: number) {
+		let blocks = this.getBlocks();
+
+		this.setBlocks(blocks.filter((_, i) => i != index));
+		if (index == blocks.length - 1) this.setFocus(index - 1);
+		if (blocks.length === 1) {
+			this.setFocus(-1);
+			this.setEdition(-1);
+			this.setHovered(-1);
+
+			// ExoEditor will create a new value so focus and edit next "tick"
+			setTimeout(() => {
+				this.setFocus(0);
+				this.setEdition(0);
+			});
+		}
+	}
+
+	moveDown(index: number) {
+		if (index >= this.getBlocks().length - 1) return;
+		let blocks = this.getBlocks();
+
+		let next = blocks[index + 1];
+		let current = blocks[index];
+
+		this.setBlocks(
+			blocks.map((v, i) => {
+				if (i === index) return next;
+				if (i === index + 1) return current;
+				return v;
+			})
+		);
+
+		const edition = this.getEdition();
+		this.setFocus(-1);
+		this.setHovered(-1);
+		setTimeout(() => {
+			this.setFocus(index + 1);
+			if (edition === index) this.setEdition(index + 1);
+		});
+	}
 }
