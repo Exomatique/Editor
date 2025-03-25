@@ -7,12 +7,20 @@
 		data = $bindable(),
 		instance,
 		index,
-		id
-	}: { data: SemanticData; instance: ExoInstance; index: number; id: string } = $props();
+		id,
+		editable
+	}: {
+		data: SemanticData;
+		instance: ExoInstance;
+		index: number;
+		id: string;
+		editable: boolean;
+	} = $props();
 </script>
 
 <div class="semantic-correction">
 	<SemanticBlock
+		{editable}
 		bind:blocks={data.blocks}
 		bind:title={data.title}
 		semantic_name={'Correction'}
@@ -35,6 +43,7 @@
 
 	:global(.semantic-correction .semantic-content) {
 		--tw-bg-opacity: 1;
+		color: black;
 		border-color: rgb(74 222 128 / var(--tw-bg-opacity, 1));
 		background-color: rgb(187 247 2084 / var(--tw-bg-opacity, 1)) /* #bfdbfe */;
 	}

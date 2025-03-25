@@ -108,9 +108,10 @@
 					instance.delete(instance.getFocus());
 					e.preventDefault();
 				} else if (editable && e.key === 'ArrowDown' && e.ctrlKey) {
+					if (instance.getEdition() < instance.getBlocks().length - 1)
 					instance.setEdition(instance.getEdition() + 1);
 				} else if (editable && e.key === 'ArrowUp' && e.ctrlKey) {
-					instance.setEdition(instance.getEdition() - 1);
+					if (instance.getEdition() > 0) instance.setEdition(instance.getEdition() - 1);
 				}
 				e.stopPropagation();
 			}}

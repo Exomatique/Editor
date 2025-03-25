@@ -7,12 +7,20 @@
 		data = $bindable(),
 		instance,
 		index,
-		id
-	}: { data: SemanticData; instance: ExoInstance; index: number; id: string } = $props();
+		id,
+		editable
+	}: {
+		data: SemanticData;
+		instance: ExoInstance;
+		index: number;
+		id: string;
+		editable: boolean;
+	} = $props();
 </script>
 
 <div class="semantic-theorem">
 	<SemanticBlock
+		{editable}
 		bind:blocks={data.blocks}
 		bind:title={data.title}
 		semantic_name={'Theroem'}
@@ -35,6 +43,7 @@
 
 	:global(.semantic-theorem .semantic-content) {
 		--tw-bg-opacity: 1;
+		color: black;
 		border-color: rgb(248 113 113 / var(--tw-bg-opacity, 1));
 		background-color: rgb(254 202 202 / var(--tw-bg-opacity, 1)) /* #bfdbfe */;
 	}
