@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Popover } from '@skeletonlabs/skeleton-svelte';
 	import type ExoInstance from './ExoInstance.js';
 	import BlockSelector from './BlockSelector.svelte';
 	import { onMount } from 'svelte';
@@ -20,7 +19,7 @@
 	aria-label="block adder"
 	class="hover:bg-surface-100 ignore-focus rounded-lg px-2"
 	onclick={() => {
-		open = !open;
+		open = true;
 	}}
 >
 	<i class="block_adder_snipper fa-solid fa-plus"></i>

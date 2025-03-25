@@ -50,9 +50,6 @@
 		};
 		getEdition: () => number = () => (editable ? edition : -1);
 		setEdition: (v: number) => void = (v) => {
-			if (this.getFocus() !== v) {
-				focused = v >= this.getBlocks().length ? this.getBlocks().length - 1 : v;
-			}
 			edition = v >= this.getBlocks().length ? this.getBlocks().length - 1 : v;
 		};
 		getHovered: () => number = () => hovered;
@@ -109,7 +106,7 @@
 					e.preventDefault();
 				} else if (editable && e.key === 'ArrowDown' && e.ctrlKey) {
 					if (instance.getEdition() < instance.getBlocks().length - 1)
-					instance.setEdition(instance.getEdition() + 1);
+						instance.setEdition(instance.getEdition() + 1);
 				} else if (editable && e.key === 'ArrowUp' && e.ctrlKey) {
 					if (instance.getEdition() > 0) instance.setEdition(instance.getEdition() - 1);
 				}
@@ -137,7 +134,7 @@
 
 {#if toolbar !== -1}
 	{@const module = instance.getEditor().modules[instance.getBlocks()[toolbar]?.type]}
-	{#key focused}
+	{#key toolbar}
 		<div
 			role="none"
 			tabindex="-1"

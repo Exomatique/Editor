@@ -18,16 +18,22 @@
 	);
 
 	function onChoice(choice_index: number) {
-		if (previously_editing != -1) instance.delete(previously_editing);
 		const editor = instance.getEditor();
 		const block = editor.buildBlock(instance.getEditor().modules[filtered[choice_index]]);
 		instance.insertBlockAt(block, index + 1);
 		if (onclick) onclick();
+
 		const copy_index = index;
+		instance.setEdition(-1);
 		setTimeout(() => {
 			instance.setFocus(copy_index + 1);
 			instance.setEdition(copy_index + 1);
-		}, 0);
+			if (previously_editing != -1) {
+				instance.delete(previously_editing);
+				instance.setFocus(copy_index);
+				instance.setEdition(copy_index);
+			}
+		}, 1);
 	}
 
 	let previously_editing: number;
