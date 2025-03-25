@@ -2,7 +2,11 @@ import type ExoEditor from './ExoEditor.js';
 import type IExoModule from './IExoModule.js';
 import type IExoModuleData from './IExoModuleData.js';
 
+type ToEditionType = 'NavigationUp' | 'NavigationDown' | 'Click';
+
 export default abstract class ExoInstance {
+	toEditionType: ToEditionType = 'Click';
+
 	abstract getEditor: () => ExoEditor;
 	abstract getBlocks: () => IExoModuleData[];
 	abstract setBlocks: (blocks: IExoModuleData[]) => void;
@@ -57,7 +61,10 @@ export default abstract class ExoInstance {
 
 		const edition = this.getEdition();
 		this.setFocus(index - 1);
-		if (edition === index) this.setEdition(index - 1);
+		if (edition === index) {
+			this.setToEditionType('Click');
+			this.setEdition(index - 1);
+		}
 	}
 
 	delete(index: number) {
@@ -98,7 +105,18 @@ export default abstract class ExoInstance {
 		this.setHovered(-1);
 		setTimeout(() => {
 			this.setFocus(index + 1);
-			if (edition === index) this.setEdition(index + 1);
+			if (edition === index) {
+				this.setToEditionType('Click');
+				this.setEdition(index + 1);
+			}
 		});
+	}
+
+	getToEditionType() {
+		return this.toEditionType;
+	}
+
+	setToEditionType(v: ToEditionType) {
+		this.toEditionType = v;
 	}
 }

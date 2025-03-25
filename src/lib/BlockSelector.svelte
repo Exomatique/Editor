@@ -27,9 +27,11 @@
 		instance.setEdition(-1);
 		setTimeout(() => {
 			instance.setFocus(copy_index + 1);
+			instance.setToEditionType('NavigationDown');
 			instance.setEdition(copy_index + 1);
 			if (previously_editing != -1) {
 				instance.delete(previously_editing);
+				instance.setToEditionType('NavigationDown');
 				instance.setFocus(copy_index);
 				instance.setEdition(copy_index);
 			}

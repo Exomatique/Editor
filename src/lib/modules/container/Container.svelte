@@ -14,6 +14,8 @@
 		onchange: parent_onchange,
 		id: parent_id,
 		editable,
+		edition: parent_edition,
+		child_instance = $bindable(),
 		index
 	}: {
 		data: ContainerData;
@@ -21,19 +23,29 @@
 		instance: ExoInstance;
 		index: number;
 		editable: boolean;
+		edition: boolean;
+		child_instance?: ExoInstance;
 		onchange: (v: ContainerData) => void;
 	} = $props();
 
 	let focused = $state(-1);
-	let edition = $state(-1);
+	let edition = $state(
+		parent_edition
+			? parent_instance.getToEditionType() === 'Click'
+				? -1
+				: parent_instance.getToEditionType() === 'NavigationDown'
+					? 0
+					: datas.length - 1
+			: -1
+	);
 	let hovered = $state(-1);
 	let toolbar = $derived(
 		editable
-			? focused === -1
-				? parent_instance.getFocus() === index || parent_instance.getFocus() === -1
+			? parent_instance.getFocus() === index || parent_instance.getFocus() === -1
+				? focused === -1
 					? hovered
-					: -1
-				: focused
+					: focused
+				: -1
 			: -1
 	);
 
@@ -59,6 +71,7 @@
 	}
 
 	const instance = new ExoInstanceImpl();
+	child_instance = instance;
 	let add_tooltip = $state(false);
 	let move_tooltip = $state(false);
 </script>
@@ -86,31 +99,47 @@
 			}}
 			onfocusin={() => {
 				instance.setFocus(v.index);
+				instance.setToEditionType('Click');
 				instance.setEdition(v.index);
 			}}
 			onfocusout={(e: any) => {
-				instance.setEdition(-1);
+				if (
+					!document
+						.getElementById('exo_block_' + instance.getBlocks()[v.index].id)
+						?.contains(e.relatedTarget as any)
+				)
+					instance.setEdition(-1);
 			}}
 			onclick={(e) => {
 				e.stopPropagation();
 			}}
 			onkeydown={(e) => {
+				console.log(parent_id);
 				if (editable && e.ctrlKey && e.shiftKey && e.key === 'ArrowDown') {
 					instance.moveDown(instance.getFocus());
 					e.preventDefault();
+					e.stopPropagation();
 				} else if (editable && e.ctrlKey && e.shiftKey && e.key === 'ArrowUp') {
 					instance.moveUp(instance.getFocus());
 					e.preventDefault();
+					e.stopPropagation();
 				} else if (editable && e.ctrlKey && e.shiftKey && e.key === 'Delete') {
 					instance.delete(instance.getFocus());
 					e.preventDefault();
+					e.stopPropagation();
 				} else if (editable && e.key === 'ArrowDown' && e.ctrlKey) {
-					if (instance.getEdition() < instance.getBlocks().length - 1)
+					if (instance.getEdition() < instance.getBlocks().length - 1) {
+						instance.setToEditionType('NavigationDown');
 						instance.setEdition(instance.getEdition() + 1);
+						e.stopPropagation();
+					}
 				} else if (editable && e.key === 'ArrowUp' && e.ctrlKey) {
-					if (instance.getEdition() > 0) instance.setEdition(instance.getEdition() - 1);
+					if (instance.getEdition() > 0) {
+						instance.setToEditionType('NavigationUp');
+						instance.setEdition(instance.getEdition() - 1);
+						e.stopPropagation();
+					}
 				}
-				e.stopPropagation();
 			}}
 		>
 			<Component

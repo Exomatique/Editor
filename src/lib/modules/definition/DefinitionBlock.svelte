@@ -8,18 +8,21 @@
 		instance,
 		index,
 		id,
-		editable
+		editable,
+		edition
 	}: {
 		data: SemanticData;
 		instance: ExoInstance;
 		index: number;
 		id: string;
 		editable: boolean;
+		edition: boolean;
 	} = $props();
 </script>
 
 <div class="semantic-definition">
 	<SemanticBlock
+		{edition}
 		{editable}
 		bind:blocks={data.blocks}
 		bind:title={data.title}

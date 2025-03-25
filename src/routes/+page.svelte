@@ -26,7 +26,11 @@
 	let data: ExoData = $state([
 		{ type: 'md', data: 'Bonjour ', id: '91a950d3_1c43_4529_bac6_bc4e5786471a' },
 		{ type: 'md', data: 'Ceci est un test', id: '83911ad5_0519_4446_b07d_eba781a7322e' },
-		{ type: 'md', data: '', id: '90b03865_7ba8_49e2_8157_ae031284ca2e' }
+		{
+			type: 'correction',
+			data: { title: '', blocks: [] },
+			id: '90b03865_7ba8_49e2_8157_ae031284ca2e'
+		}
 	]);
 
 	let editable = $state(true);
