@@ -114,7 +114,6 @@
 				e.stopPropagation();
 			}}
 			onkeydown={(e) => {
-				console.log(parent_id);
 				if (editable && e.ctrlKey && e.shiftKey && e.key === 'ArrowDown') {
 					instance.moveDown(instance.getFocus());
 					e.preventDefault();
