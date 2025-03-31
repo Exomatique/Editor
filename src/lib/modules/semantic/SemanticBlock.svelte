@@ -71,7 +71,20 @@
 		></div>
 	</div>
 
-	<div role="none" class={'semantic-content flex-1 rounded-b-lg border-2  px-2 py-2 pt-4 '}>
+	<div
+		role="none"
+		class={'semantic-content flex-1 rounded-b-lg border-2  px-2 py-2 pt-4 '}
+		onkeydown={(e) => {
+			if (editable && e.key === 'ArrowUp' && e.ctrlKey && child_instance) {
+				child_instance?.setFocus(-1);
+				child_instance?.setEdition(-1);
+				(document.getElementById(id)?.getElementsByClassName('editable')[0] as any).focus();
+				edit_box = false;
+				e.preventDefault();
+				e.stopPropagation();
+			}
+		}}
+	>
 		<Container
 			bind:data={blocks}
 			{instance}
