@@ -2,17 +2,16 @@
 	import type { MdData } from './LatexData.js';
 	import type ExoInstance from '../../ExoInstance.js';
 	import { parse, HtmlGenerator } from 'latex.js';
+
+	import CodeMirror from 'svelte-codemirror-editor';
+	import { EditorView } from '@codemirror/view';
+	import { syntaxHighlighting, defaultHighlightStyle, StreamLanguage } from '@codemirror/language';
+	import { stex } from '@codemirror/legacy-modes/mode/stex';
 	// Not used for now, prefers to use tailwind to have a common rendering with markdown
 	// import './css/article.css';
 	// import './css/book.css';
 	// import './css/katex.css';
 	// import './css/base.css';
-
-	import hljs from 'highlight.js/lib/core';
-	import 'highlight.js/styles/github.css';
-	import latex from 'highlight.js/lib/languages/latex';
-	import CodeInput from '../../CodeInput.svelte';
-	hljs.registerLanguage('latex', latex);
 
 	let {
 		data = $bindable(),
@@ -51,39 +50,45 @@
 	});
 
 	$effect(() => {
-		if (edition)
-			(document.getElementById(id)?.getElementsByClassName('editable')[0] as any).focus();
+		if (edition) {
+			(document.getElementById(id)?.getElementsByClassName('cm-content')[0] as any).focus();
+		}
 	});
 </script>
 
-<div class="relative flex flex-1 flex-col">
+<div class="relative">
 	{#if edition}
-		<CodeInput
-			autoHeight
-			language={'latex'}
-			highlightjs={hljs}
+		<CodeMirror
 			bind:value={data}
-			onChange={() => {}}
-			placeholder={' '}
+			extensions={[]}
+			theme={[
+				EditorView.contentAttributes.of({ spellcheck: 'true' }),
+				EditorView.lineWrapping,
+				StreamLanguage.define(stex),
+				syntaxHighlighting(defaultHighlightStyle)
+			]}
 		/>
 	{:else}
 		<div
-			class="prose lg:prose-xl min-h-5 w-full flex-1 border-none outline-none"
+			class="latex-content min-h-5 w-full flex-1 border-none text-wrap outline-none"
 			tabindex="-1"
 			spellcheck="false"
 		>
+			{#if data.trim().length === 0}
+				<em>Insert latex code here</em>
+			{/if}
 			{@html html_data}
 		</div>
 	{/if}
-	{#key data}
-		{#if edition && (data.length === 0 || data === '\n')}
-			<div class="text-surface-400 pointer-events-none absolute top-0 left-0">Type text</div>
-		{/if}
-	{/key}
 </div>
 
 <style>
 	:global(.katex-html) {
 		display: none;
+	}
+
+	:global(.latex-content *) {
+		text-wrap: wrap;
+		word-wrap: break-word;
 	}
 </style>

@@ -29,7 +29,7 @@
 	<div
 		bind:this={selector}
 		role="none"
-		class="border-surface-300 bg-surface-50 absolute flex flex-col rounded-lg border-2 p-2 text-neutral-950 scheme-light"
+		class="border-surface-300 bg-surface-50 absolute z-50 flex flex-col rounded-lg border-2 p-2 text-neutral-950 scheme-light"
 		onfocusout={(e) => {
 			if (!e.relatedTarget || !selector?.contains(e.relatedTarget as any)) open = false;
 		}}

@@ -54,9 +54,13 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@codemirror/lang-markdown": "^6.3.2",
+		"@codemirror/legacy-modes": "^6.5.0",
+		"@codemirror/lint": "^6.8.5",
 		"@fortawesome/fontawesome-free": "^6.7.2",
 		"@tailwindcss/typography": "^0.5.16",
 		"highlight.js": "^11.11.1",
+		"lang-tex": "^0.0.3",
 		"latex.js": "^0.12.6",
 		"media-icons": "^1.1.5",
 		"rehype-mathjax": "^7.1.0",
@@ -66,6 +70,7 @@
 		"remark-math": "^6.0.0",
 		"remark-parse": "^11.0.0",
 		"remark-rehype": "^11.1.1",
+		"svelte-codemirror-editor": "^1.4.1",
 		"unified": "^11.0.5",
 		"vidstack": "^1.12.13"
 	}
