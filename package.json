@@ -59,7 +59,6 @@
 		"@codemirror/lint": "^6.8.5",
 		"@fortawesome/fontawesome-free": "^6.7.2",
 		"@tailwindcss/typography": "^0.5.16",
-		"highlight.js": "^11.11.1",
 		"lang-tex": "^0.0.3",
 		"latex.js": "^0.12.6",
 		"media-icons": "^1.1.5",
