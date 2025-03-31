@@ -166,7 +166,7 @@
 		<div
 			role="none"
 			tabindex="-1"
-			class="absolute left-3 flex flex-row gap-1"
+			class="absolute left-3 flex h-9 flex-row items-center justify-center gap-1"
 			id="toolbar ignore-focus"
 			style={'top: ' +
 				(document.getElementById('exo_block_' + instance.getBlocks()[toolbar].id)?.offsetTop || 0) +
