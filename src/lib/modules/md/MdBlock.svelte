@@ -61,7 +61,7 @@
 	});
 
 	$effect(() => {
-		if (edition) {
+		if (edition && (document.getElementById(id)?.getElementsByClassName('cm-content')[0] as any)) {
 			(document.getElementById(id)?.getElementsByClassName('cm-content')[0] as any).focus();
 		}
 	});

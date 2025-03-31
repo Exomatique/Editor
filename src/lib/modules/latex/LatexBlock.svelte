@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { MdData } from './LatexData.js';
-	import type ExoInstance from '../../ExoInstance.js';
+	import type { MdData } from './LatexData';
+	import type ExoInstance from '../../ExoInstance';
 	import { parse, HtmlGenerator } from 'latex.js';
 
 	import CodeMirror from 'svelte-codemirror-editor';
@@ -50,7 +50,7 @@
 	});
 
 	$effect(() => {
-		if (edition) {
+		if (edition && (document.getElementById(id)?.getElementsByClassName('cm-content')[0] as any)) {
 			(document.getElementById(id)?.getElementsByClassName('cm-content')[0] as any).focus();
 		}
 	});
