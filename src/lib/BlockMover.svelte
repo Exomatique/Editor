@@ -54,7 +54,9 @@
 
 			<button
 				class="btn bg-surface-200 hover:bg-surface-50 flex flex-row items-center justify-start"
-				onclick={() => instance.delete(index)}
+				onclick={() => {
+					instance.delete(index);
+				}}
 			>
 				<p class="flex-1 text-left">
 					<i class="fa-solid fa-x"></i> Delete

@@ -46,6 +46,7 @@ export default abstract class ExoInstance {
 
 	moveUp(index: number) {
 		if (index <= 0) return;
+		const save_edit = this.getEdition();
 		let blocks = this.getBlocks();
 
 		let previous = blocks[index - 1];
@@ -59,19 +60,19 @@ export default abstract class ExoInstance {
 			})
 		);
 
-		const edition = this.getEdition();
 		this.setFocus(index - 1);
-		if (edition === index) {
-			this.setToEditionType('Click');
+		if (save_edit === index) {
+			this.setToEditionType('NavigationUp');
 			this.setEdition(index - 1);
 		}
 	}
 
 	delete(index: number) {
+		let moveEditionUp = this.getEdition() === index;
 		let blocks = this.getBlocks();
 
 		this.setBlocks(blocks.filter((_, i) => i != index));
-		if (index == blocks.length - 1) this.setFocus(index - 1);
+		if (index === blocks.length - 1) this.setFocus(index - 1);
 		if (blocks.length === 1) {
 			this.setFocus(-1);
 			this.setEdition(-1);
@@ -82,6 +83,12 @@ export default abstract class ExoInstance {
 				this.setFocus(0);
 				this.setEdition(0);
 			});
+		}
+
+		if (moveEditionUp) {
+			this.setToEditionType('NavigationUp');
+			this.setFocus(index - 1);
+			this.setEdition(index - 1);
 		}
 	}
 
@@ -106,7 +113,7 @@ export default abstract class ExoInstance {
 		setTimeout(() => {
 			this.setFocus(index + 1);
 			if (edition === index) {
-				this.setToEditionType('Click');
+				this.setToEditionType('NavigationDown');
 				this.setEdition(index + 1);
 			}
 		});
