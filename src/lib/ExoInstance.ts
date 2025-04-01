@@ -68,7 +68,7 @@ export default abstract class ExoInstance {
 	}
 
 	delete(index: number) {
-		let moveEditionUp = this.getEdition() === index;
+		let moveAfterDeletion = this.getEdition() === index;
 		let blocks = this.getBlocks();
 
 		this.setBlocks(blocks.filter((_, i) => i != index));
@@ -85,10 +85,14 @@ export default abstract class ExoInstance {
 			});
 		}
 
-		if (moveEditionUp) {
+		if (moveAfterDeletion && index != 0) {
 			this.setToEditionType('NavigationUp');
 			this.setFocus(index - 1);
 			this.setEdition(index - 1);
+		} else {
+			this.setToEditionType('NavigationDown');
+			this.setFocus(0);
+			this.setEdition(0);
 		}
 	}
 

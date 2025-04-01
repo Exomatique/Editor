@@ -49,5 +49,13 @@
 	class="exoeditor rounded-3x bg-surface-50 text-body-color-dark relative min-h-20 w-full py-10 shadow-2xl"
 	role="none"
 >
-	<Container bind:data {instance} index={0} id={'document'} onchange={() => {}} {editable} />
+	<Container
+		bind:data
+		{instance}
+		index={0}
+		id={'document'}
+		onchange={() => {}}
+		{editable}
+		edition={editable}
+	/>
 </div>
