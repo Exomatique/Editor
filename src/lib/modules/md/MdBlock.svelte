@@ -79,12 +79,7 @@
 	class="relative"
 	onkeydown={(e) => {
 		if (!edition) return;
-		if (e.key === 'Enter' && !e.shiftKey) {
-			instance.insertAndBuildBlockAt('md', undefined, index + 1);
-			instance.setEdition(index + 1);
-			e.preventDefault();
-			e.stopPropagation();
-		} else if (e.key === '/' && data.length == 0) {
+		if (e.key === '/' && data.length == 0) {
 			e.preventDefault();
 
 			(
