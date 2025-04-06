@@ -1,5 +1,4 @@
 <script lang="ts">
-	// https://github.com/srsholmes/svelte-code-input
 	import type { MdData } from './MdData';
 	import remarkParse from 'remark-parse';
 	import remarkRehype from 'remark-rehype';
@@ -15,7 +14,7 @@
 	import { markdown } from '@codemirror/lang-markdown';
 
 	import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
-	import { getLanguage, getSupportedLanguages } from '../code/LanguageSupport.js';
+	import { getLanguage } from '../code/LanguageSupport.js';
 	import rehypeCodeMirrorHighlight from './CodeMirrorMarkdownHighlighter';
 	import rehypeRaw from 'rehype-raw';
 
@@ -118,3 +117,17 @@
 		</div>
 	{/if}
 </div>
+
+<style>
+	:global(mjx-container:not([display='true'])) {
+		display: inline-block;
+		margin: 0 0.1em;
+	}
+
+	:global(mjx-container[display='true']) {
+		display: flex !important;
+		justify-content: center;
+		margin: 1em 0;
+		text-align: center;
+	}
+</style>
