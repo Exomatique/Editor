@@ -12,3 +12,10 @@
     color: black;
     background-color: lightblue;
 }
+
+.exoeditor ul {
+    list-style-type: revert;
+    li::marker {
+        color: black;
+    }
+}

@@ -38,6 +38,9 @@
 		Array(...el.getElementsByTagName('link')).forEach((v) => {
 			if (v.rel === 'stylesheet') v.remove();
 		});
+
+		Array(...el.getElementsByClassName('itemlabel')).forEach((v) => v.remove());
+		Array();
 		return el.outerHTML;
 	};
 
@@ -59,6 +62,7 @@
 <div class="relative flex">
 	{#if edition}
 		<CodeMirror
+			class="w-full"
 			bind:value={data}
 			extensions={[]}
 			theme={[
@@ -70,7 +74,7 @@
 		/>
 	{:else}
 		<div
-			class="latex-content prose lg:prose-xl min-h-5 w-full max-w-full flex-1 border-none text-wrap outline-none"
+			class="latex-content prose lg:prose-xl min-h-5 w-full max-w-full flex-1 list-none border-none text-wrap outline-none"
 			tabindex="-1"
 			spellcheck="false"
 		>
