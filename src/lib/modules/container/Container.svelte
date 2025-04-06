@@ -145,6 +145,7 @@
 				bind:data={datas[v.index].data}
 				index={v.index}
 				datas={instance.getBlocks()}
+				{module}
 				id={'exo_block_' + v.id}
 				{instance}
 				onchange={(value: any) => {
