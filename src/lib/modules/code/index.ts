@@ -1,4 +1,4 @@
-export { default as MdBlock } from './CodeBlock.svelte';
-export { default as MdModule } from './CodeModule';
+export { default as CodeBlock } from './CodeBlock.svelte';
+export { default as CodeModule } from './CodeModule';
 export * from './LanguageSupport';
 export * from './CodeModule';
