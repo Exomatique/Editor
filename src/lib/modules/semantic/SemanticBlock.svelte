@@ -96,7 +96,7 @@
 			class:rounded-b-lg={collasped}
 			style={`border-color: ${border_color}; ${preset.title?.type === 'none' && preset.prefix?.type !== 'none' ? `background-color: ${prefix_color}` : ''}`}
 		>
-			{#if editable || data.prefix?.trim().length !== 0 || data.title?.trim().length !== 0}
+			{#if editable || data.prefix?.trim().length !== 0}
 				<div
 					class="flex flex-row items-center self-start rounded-tl rounded-r-md px-4 py-2 font-bold select-none"
 					style={`background-color: ${prefix_color}; color: ${prefix_text};`}
