@@ -187,7 +187,7 @@
 			}}
 		>
 			<Container
-				bind:data={blocks}
+				bind:data={data.content}
 				{instance}
 				{id}
 				{index}
