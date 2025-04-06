@@ -13,7 +13,6 @@
 	import remarkMath from 'remark-math';
 	import CodeMirror from 'svelte-codemirror-editor';
 	import { markdown } from '@codemirror/lang-markdown';
-	import { lintGutter } from '@codemirror/lint';
 
 	import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
 
@@ -91,13 +90,14 @@
 	{#if edition}
 		<CodeMirror
 			lang={markdown()}
+			lineWrapping={true}
 			extensions={[syntaxHighlighting(defaultHighlightStyle, { fallback: true })]}
 			basic={false}
 			bind:value={data}
 		/>
 	{:else}
 		<div
-			class="prose lg:prose-xl w-full flex-1 cursor-text border-none p-0 outline-none"
+			class="prose lg:prose-xl max-w-full flex-1 cursor-text border-none p-0 outline-none"
 			tabindex="-1"
 		>
 			{#if data.trim().length === 0 && editable}
