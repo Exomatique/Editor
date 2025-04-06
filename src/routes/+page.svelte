@@ -5,6 +5,7 @@
 	import type IExoModuleData from '$lib/IExoModuleData';
 	import ContainerModule from '$lib/modules/container/ContainerModule';
 	import MdModule from '$lib/modules/md/MdModule.js';
+	import CodeModule from '../lib/modules/code/CodeModule';
 	import CorrectionModule from '../lib/modules/correction/CorrectionModule';
 	import DefinitionModule from '../lib/modules/definition/DefinitionModule';
 	import LatexModule from '../lib/modules/latex/LatexModule';
@@ -18,7 +19,8 @@
 			new CorrectionModule(),
 			new TheoremModule(),
 			new LatexModule(),
-			new VideoModule()
+			new VideoModule(),
+			new CodeModule()
 		],
 		default_module: 'md'
 	});

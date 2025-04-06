@@ -6,3 +6,4 @@ export * from './md';
 export * from './semantic';
 export * from './theorem';
 export * from './video';
+export * from './code';
