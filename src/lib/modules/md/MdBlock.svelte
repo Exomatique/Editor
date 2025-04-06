@@ -23,7 +23,8 @@
 		edition,
 		instance,
 		id,
-		index
+		index,
+		editable
 	}: {
 		data: MdData;
 		onchange: (v: string) => void;
@@ -31,6 +32,7 @@
 		instance: ExoInstance;
 		id: string;
 		index: number;
+		editable: boolean;
 	} = $props();
 
 	let html_data = $state('');
@@ -95,10 +97,10 @@
 		/>
 	{:else}
 		<div
-			class="prose lg:prose-xl min-h-5 w-full flex-1 cursor-text border-none p-0 outline-none"
+			class="prose lg:prose-xl w-full flex-1 cursor-text border-none p-0 outline-none"
 			tabindex="-1"
 		>
-			{#if data.trim().length === 0}
+			{#if data.trim().length === 0 && editable}
 				<em>Insert markdown text here</em>
 			{/if}
 			{@html html_data}

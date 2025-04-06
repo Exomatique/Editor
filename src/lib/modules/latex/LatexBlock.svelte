@@ -19,9 +19,11 @@
 		edition,
 		instance,
 		id,
+		editable,
 		index
 	}: {
 		data: MdData;
+		editable: boolean;
 		onchange: (v: string) => void;
 		edition: boolean;
 		instance: ExoInstance;
@@ -74,11 +76,11 @@
 		/>
 	{:else}
 		<div
-			class="latex-content prose lg:prose-xl min-h-5 w-full max-w-full flex-1 list-none border-none text-wrap outline-none"
+			class="latex-content prose lg:prose-xl w-full max-w-full flex-1 list-none border-none text-wrap outline-none"
 			tabindex="-1"
 			spellcheck="false"
 		>
-			{#if data.trim().length === 0}
+			{#if data.trim().length === 0 && editable}
 				<em>Insert latex code here</em>
 			{/if}
 			{@html html_data}
