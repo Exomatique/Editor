@@ -18,5 +18,13 @@ export function addSupport(lang: LanguageDescription) {
 }
 
 export function getSupportedLanguages() {
-	return [...native_languages, ...new_languages];
+	return [...new_languages, ...native_languages];
+}
+
+export function getLanguage(nameOrAlias: string) {
+	return getSupportedLanguages().find((description) => {
+		return Array(...description.alias, description.name).find((v) =>
+			v.toLowerCase().startsWith(nameOrAlias.toLowerCase())
+		);
+	});
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
 	// https://github.com/srsholmes/svelte-code-input
-	import type { MdData } from './MdData.js';
+	import type { MdData } from './MdData';
 	import remarkParse from 'remark-parse';
 	import remarkRehype from 'remark-rehype';
 	import rehypeSanitize from 'rehype-sanitize';
@@ -15,6 +15,9 @@
 	import { markdown } from '@codemirror/lang-markdown';
 
 	import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
+	import { getLanguage, getSupportedLanguages } from '../code/LanguageSupport.js';
+	import rehypeCodeMirrorHighlight from './CodeMirrorMarkdownHighlighter';
+	import rehypeRaw from 'rehype-raw';
 
 	let {
 		data = $bindable(),
@@ -41,10 +44,14 @@
 			.use(remarkParse)
 			.use(remarkMath)
 			.use(remarkGfm)
-			.use(remarkRehype)
+			.use(remarkRehype, { allowDangerousHtml: true })
 			.use(rehypeSanitize)
 			.use(rehypeMathjax)
-			.use(rehypeStringify)
+			.use(rehypeRaw)
+			.use(rehypeCodeMirrorHighlight)
+			.use(rehypeSanitize)
+			.use(rehypeMathjax)
+			.use(rehypeStringify, { allowDangerousHtml: true })
 			.process(data)
 			.then((v) => {
 				return v.value as string;
@@ -89,7 +96,11 @@
 >
 	{#if edition}
 		<CodeMirror
-			lang={markdown()}
+			lang={markdown({
+				codeLanguages(info) {
+					return getLanguage(info) || null;
+				}
+			})}
 			lineWrapping={true}
 			extensions={[syntaxHighlighting(defaultHighlightStyle, { fallback: true })]}
 			basic={false}
@@ -97,7 +108,7 @@
 		/>
 	{:else}
 		<div
-			class="prose lg:prose-xl max-w-full flex-1 cursor-text border-none p-0 outline-none"
+			class="markdown-content prose lg:prose-xl max-w-full flex-1 cursor-text border-none p-0 outline-none"
 			tabindex="-1"
 		>
 			{#if data.trim().length === 0}

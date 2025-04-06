@@ -1,6 +1,6 @@
 {
 	"name": "@exomatique/editor",
-	"version": "1.4.0",
+	"version": "1.4.1",
 	"license": "MIT",
 	"scripts": {
 		"generate-exports": "node generate-module-exports.mjs",
@@ -66,6 +66,7 @@
 		"latex.js": "^0.12.6",
 		"media-icons": "^1.1.5",
 		"rehype-mathjax": "^7.1.0",
+		"rehype-raw": "^7.0.0",
 		"rehype-sanitize": "^6.0.0",
 		"rehype-stringify": "^10.0.1",
 		"remark-gfm": "^4.0.1",
