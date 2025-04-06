@@ -12,14 +12,29 @@
 	let inputEl: HTMLInputElement;
 	let select: number = $state(-1);
 	let filtered = $derived(
-		Object.keys(instance.getEditor().modules).filter((v) =>
-			instance.getEditor().modules[v].name.toLowerCase().startsWith(filter.toLowerCase())
-		)
+		Object.keys(instance.getEditor().modules)
+			.map((v) => {
+				const module = instance.getEditor().modules[v];
+				return [
+					{ key: module.name, module, icon: module.icon, creator: module.default_value },
+					...(module.macros
+						? module.macros.map((v) => ({
+								key: v.key,
+								module,
+								icon: v.icon,
+								creator: v.value_creator
+							}))
+						: [])
+				];
+			})
+			.flat()
+			.filter((v) => v.key.toLowerCase().startsWith(filter.toLowerCase()))
 	);
 
 	function onChoice(choice_index: number) {
 		const editor = instance.getEditor();
-		const block = editor.buildBlock(instance.getEditor().modules[filtered[choice_index]]);
+		const selected = filtered[choice_index];
+		const block = editor.buildBlock(selected.module, selected.creator(editor));
 		instance.insertBlockAt(block, index + 1);
 		if (onclick) onclick();
 
@@ -88,9 +103,9 @@
 			}}
 		>
 			<div class="flex h-6 w-6 items-center justify-center">
-				{@html instance.getEditor().modules[k].icon}
+				{@html k.icon}
 			</div>
-			{instance.getEditor().modules[k].name}
+			{k.key}
 		</button>
 	{/each}
 </div>
