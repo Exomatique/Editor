@@ -100,8 +100,8 @@
 			class="prose lg:prose-xl max-w-full flex-1 cursor-text border-none p-0 outline-none"
 			tabindex="-1"
 		>
-			{#if data.trim().length === 0 && editable}
-				<em>Insert markdown text here</em>
+			{#if data.trim().length === 0}
+				<em class:invisible={!editable}>Insert markdown text here</em>
 			{/if}
 			{@html html_data}
 		</div>
