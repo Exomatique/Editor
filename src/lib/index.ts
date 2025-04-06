@@ -1,7 +1,6 @@
 export { default as Editor } from './Editor.svelte';
 export { default as BlockAdder } from './BlockAdder.svelte';
 export { default as BlockSelector } from './BlockSelector.svelte';
-export { default as CodeInput } from './CodeInput.svelte';
 
 export * from './ExoEditor';
 export * from './ExoInstance';

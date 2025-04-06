@@ -56,7 +56,7 @@
 	});
 </script>
 
-<div class="relative">
+<div class="relative flex">
 	{#if edition}
 		<CodeMirror
 			bind:value={data}
@@ -70,7 +70,7 @@
 		/>
 	{:else}
 		<div
-			class="latex-content min-h-5 w-full flex-1 border-none text-wrap outline-none"
+			class="latex-content prose lg:prose-xl min-h-5 w-full max-w-full flex-1 border-none text-wrap outline-none"
 			tabindex="-1"
 			spellcheck="false"
 		>
