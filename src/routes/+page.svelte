@@ -24,7 +24,7 @@
 				},
 				{
 					name: 'definition',
-					baseColor: { type: 'static', value: '#0000FF' },
+					baseColor: { type: 'static', value: '#000000' },
 					prefix: { type: 'static', value: 'Definition' },
 					spoiler: { type: 'static', value: false },
 					title: { type: 'editable', value: '' }

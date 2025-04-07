@@ -17,24 +17,28 @@ export interface SemanticVariant {
 	icon?: string;
 }
 
-export function buildVariant(v: SemanticVariant): SemanticData {
-	function fieldToValue<T>(field: SemanticField<T> | undefined, default_value: T): T | undefined {
-		if (!field) return undefined;
-		switch (field.type) {
-			case 'none':
-				return undefined;
-			case 'static':
-				return field.value;
-			case 'editable':
-				return field.value || default_value;
-		}
+export function fieldToValue<T>(
+	field: SemanticField<T> | undefined,
+	default_value?: T,
+	preventStaticSave?: boolean
+): T | undefined {
+	if (!field) return undefined;
+	switch (field.type) {
+		case 'none':
+			return undefined;
+		case 'static':
+			return preventStaticSave ? undefined : field.value;
+		case 'editable':
+			return default_value || field.value;
 	}
+}
 
+export function buildVariant(v: SemanticVariant): SemanticData {
 	return {
-		prefix: fieldToValue(v.prefix, ''),
-		title: fieldToValue(v.title, ''),
-		baseColor: fieldToValue(v.baseColor, ''),
-		spoiler: fieldToValue(v.spoiler, false),
+		prefix: fieldToValue(v.prefix, undefined, true),
+		title: fieldToValue(v.title, undefined, true),
+		baseColor: fieldToValue(v.baseColor, undefined, true),
+		spoiler: fieldToValue(v.spoiler, undefined, true),
 		content: [],
 		preset: v.name
 	};
@@ -76,11 +80,11 @@ export default class SemanticModule implements IExoModule<SemanticData> {
 		this.macros = this.variants.map((v) => ({
 			key: v.name,
 			icon: v.icon || `<i class="fa-solid fa-${v.name.charAt(0).toLowerCase()}"></i>`,
-			value_creator: () => buildVariant(v)
+			value_creator: () => ({ preset: v.name, content: [] })
 		}));
 	}
 
 	default_value = () => {
-		return buildVariant(this.variants[0]);
+		return { preset: this.variants[0].name, content: [] };
 	};
 }
