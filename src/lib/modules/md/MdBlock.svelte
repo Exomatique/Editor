@@ -13,10 +13,17 @@
 	import CodeMirror from 'svelte-codemirror-editor';
 	import { markdown } from '@codemirror/lang-markdown';
 
-	import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
+	import {
+		defaultHighlightStyle,
+		LanguageSupport,
+		StreamLanguage,
+		syntaxHighlighting
+	} from '@codemirror/language';
 	import { getLanguage } from '../code/LanguageSupport.js';
 	import rehypeCodeMirrorHighlight from './CodeMirrorMarkdownHighlighter';
 	import rehypeRaw from 'rehype-raw';
+	import { parseMathIPython } from './MarkdownTexParser';
+	import { stex, stexMath } from '@codemirror/legacy-modes/mode/stex';
 
 	let {
 		data = $bindable(),
@@ -91,6 +98,7 @@
 	{#if edition}
 		<CodeMirror
 			lang={markdown({
+				extensions: [parseMathIPython(StreamLanguage.define(stexMath).parser)],
 				codeLanguages(info) {
 					return getLanguage(info) || null;
 				}
@@ -115,6 +123,7 @@
 
 <style>
 	:global(mjx-container:not([display='true'])) {
+		vertical-align: middle;
 		display: inline-block;
 		margin: 0 0.1em;
 	}
