@@ -1,8 +1,7 @@
-import type { Component } from 'svelte';
-import type IExoModule from '../../IExoModule';
-import type { ContainerData } from './ContainerData';
-import Container from './Container.svelte';
 import type ExoEditor from '../../ExoEditor';
+import type IExoModule from '../../IExoModule';
+import Container from './Container.svelte';
+import type { ContainerData } from './ContainerData';
 
 export default class ContainerModule implements IExoModule<ContainerData> {
 	type = 'container';

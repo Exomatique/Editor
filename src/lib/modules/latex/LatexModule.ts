@@ -1,6 +1,5 @@
 import type IExoModule from '../../IExoModule.js';
 import LatexBlock from './LatexBlock.svelte';
-import MdBlock from './LatexBlock.svelte';
 import type { MdData } from './LatexData.js';
 
 export default class LatexModule implements IExoModule<MdData> {

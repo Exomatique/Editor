@@ -1,13 +1,13 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { NodeSet, parseMixed, Parser, Tree } from '@lezer/common';
+import { parseMixed, Parser } from '@lezer/common';
 import { tags } from '@lezer/highlight';
 import {
+	BlockContext,
+	InlineContext,
 	type DelimiterType,
 	type Line,
-	InlineContext,
-	BlockContext,
 	type MarkdownConfig,
 	type NodeSpec
 } from '@lezer/markdown';

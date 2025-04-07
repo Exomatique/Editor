@@ -31,7 +31,7 @@
 		<div class="flex flex-row items-center gap-2">
 			Paste your video link here :
 			<div
-				class="editable prose min-h-5 w-full flex-1 border-none text-blue-400 outline-none lg:prose-xl"
+				class="editable prose lg:prose-xl min-h-5 w-full flex-1 border-none text-blue-400 outline-none"
 				contenteditable
 				bind:innerText={data}
 			></div>

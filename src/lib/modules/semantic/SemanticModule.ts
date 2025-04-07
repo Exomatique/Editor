@@ -1,9 +1,7 @@
-import type { Component } from 'svelte';
-import type ExoEditor from '../../ExoEditor.js';
 import type IExoModule from '../../IExoModule.js';
+import type { Macro } from '../../IExoModule.js';
 import type IExoModuleData from '../../IExoModuleData.js';
 import SemanticBlock from './SemanticBlock.svelte';
-import type { Macro } from '../../IExoModule.js';
 
 export type SemanticField<T> =
 	| { type: 'static'; value: T }

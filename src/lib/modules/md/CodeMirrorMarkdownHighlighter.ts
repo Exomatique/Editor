@@ -1,8 +1,8 @@
-import { visit } from 'unist-util-visit';
-import { EditorView } from '@codemirror/view';
+import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { EditorState } from '@codemirror/state';
+import { EditorView } from '@codemirror/view';
+import { visit } from 'unist-util-visit';
 import { getLanguage } from '../code/LanguageSupport'; // your helper!
-import { syntaxHighlighting, HighlightStyle, defaultHighlightStyle } from '@codemirror/language';
 
 // Optional: escape HTML
 const escapeHtml = (str: string) =>

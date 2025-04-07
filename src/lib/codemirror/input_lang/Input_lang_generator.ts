@@ -1,17 +1,7 @@
-import { htmlLanguage } from '@codemirror/lang-html';
-import { markdown } from '@codemirror/lang-markdown';
-import {
-	foldNodeProp,
-	foldInside,
-	indentNodeProp,
-	Language,
-	LRLanguage,
-	LanguageSupport,
-	HighlightStyle
-} from '@codemirror/language';
-import { parser } from './input_lang_parser';
+import { HighlightStyle, Language, LanguageSupport, LRLanguage } from '@codemirror/language';
 import { parseMixed } from '@lezer/common';
 import { styleTags, tags as t, Tag } from '@lezer/highlight';
+import { parser } from './input_lang_parser';
 
 const invisibleTag = Tag.define();
 
