@@ -16,7 +16,9 @@
 			.map((v) => {
 				const module = instance.getEditor().modules[v];
 				return [
-					{ key: module.name, module, icon: module.icon, creator: module.default_value },
+					...(module.name
+						? [{ key: module.name, module, icon: module.icon, creator: module.default_value }]
+						: []),
 					...(module.macros
 						? module.macros.map((v) => ({
 								key: v.key,

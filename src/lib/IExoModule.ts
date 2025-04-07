@@ -11,7 +11,7 @@ export default interface IExoModule<U> {
 	type: string;
 	container: boolean;
 	component: Component<any>;
-	name: string;
+	name?: string;
 	icon: string;
 
 	macros?: Macro<U>[];
