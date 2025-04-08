@@ -1,0 +1,62 @@
+{
+	"name": "@exomatique_editor/base",
+	"version": "1.4.3",
+	"license": "MIT",
+	"scripts": {
+		"generate-exports": "node generate-module-exports.mjs",
+		"dev": "vite dev",
+		"build": "vite build && npm run prepack",
+		"generate": "lezer-generator src/lib/codemirror/input_lang/input_lang.grammar -o src/lib/codemirror/input_lang/input_lang_parser.js",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"prepack": "svelte-kit sync && svelte-package && publint",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"format": "prettier --write .",
+		"lint": "prettier --check ."
+	},
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"sideEffects": [
+		"**/*.css"
+	],
+	"svelte": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js"
+		}
+	},
+	"peerDependencies": {
+		"svelte": "^5.0.0"
+	},
+	"devDependencies": {
+		"@skeletonlabs/skeleton": "^3.0.0-next.11",
+		"@skeletonlabs/skeleton-svelte": "^1.0.0-next.20",
+		"@sveltejs/adapter-auto": "^4.0.0",
+		"@sveltejs/kit": "^2.16.0",
+		"@sveltejs/package": "^2.0.0",
+		"@sveltejs/vite-plugin-svelte": "^5.0.0",
+		"@tailwindcss/vite": "^4.0.0",
+		"autoprefixer": "^10.4.20",
+		"prettier": "^3.4.2",
+		"prettier-plugin-organize-imports": "^4.1.0",
+		"prettier-plugin-svelte": "^3.3.3",
+		"prettier-plugin-tailwindcss": "^0.6.10",
+		"publint": "^0.3.2",
+		"svelte": "^5.0.0",
+		"svelte-check": "^4.0.0",
+		"tailwindcss": "^4.0.0",
+		"typescript": "^5.0.0",
+		"vite": "^6.0.0"
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-free": "^6.7.2",
+		"@tailwindcss/typography": "^0.5.16"
+	}
+}
