@@ -1,6 +1,6 @@
 {
 	"name": "@exomatique_editor/base",
-	"version": "1.4.3",
+	"version": "1.0.0",
 	"license": "MIT",
 	"scripts": {
 		"dev": "vite dev",
@@ -54,6 +54,7 @@
 		"vite": "^6.2.5"
 	},
 	"dependencies": {
+		"@codemirror/language-data": "^6.5.1",
 		"@fortawesome/fontawesome-free": "^6.7.2",
 		"@tailwindcss/typography": "^0.5.16"
 	}

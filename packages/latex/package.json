@@ -59,7 +59,7 @@
 		"@codemirror/language": "^6.11.0",
 		"@codemirror/legacy-modes": "^6.5.0",
 		"@codemirror/view": "^6.36.5",
-		"@exomatique_editor/base": "^1.4.3",
+		"@exomatique_editor/base": "^1.0.0",
 		"lang-tex": "^0.0.3",
 		"latex.js": "^0.12.6",
 		"svelte-codemirror-editor": "^1.4.1"

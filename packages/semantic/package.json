@@ -56,6 +56,6 @@
 		"svelte"
 	],
 	"dependencies": {
-		"@exomatique_editor/base": "^1.4.3"
+		"@exomatique_editor/base": "^1.0.0"
 	}
 }
