@@ -107,8 +107,10 @@
 					!document
 						.getElementById('exo_block_' + instance.getBlocks()[v.index].id)
 						?.contains(e.relatedTarget as any)
-				)
+				) {
 					instance.setEdition(-1);
+					instance.setFocus(-1);
+				}
 			}}
 			onclick={(e) => {
 				e.stopPropagation();
