@@ -39,7 +39,7 @@
 	{/if}
 
 	<div class="relative w-3/4">
-		<media-player class="min-h-20" src={data} crossOrigin playsInline>
+		<media-player class="min-h-20" src={data.link} crossOrigin playsInline>
 			<media-provider>
 				<media-poster
 					class="absolute inset-0 block h-full w-full rounded-md bg-black opacity-0 transition-opacity data-[visible]:opacity-100 [&>img]:h-full [&>img]:w-full [&>img]:object-cover"
