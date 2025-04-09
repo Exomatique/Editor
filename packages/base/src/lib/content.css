@@ -24,6 +24,7 @@
 
 .exoeditor ul {
 	list-style-type: revert;
+	padding-inline-start: 40px;
 	li::marker {
 		color: black;
 	}
