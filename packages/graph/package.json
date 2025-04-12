@@ -56,7 +56,7 @@
 		"svelte"
 	],
 	"dependencies": {
-		"@exomatique_editor/base": "^1.0.0",
+		"@exomatique_editor/base": "^1.0.1",
 		"@viz-js/lang-dot": "^1.0.4",
 		"@viz-js/viz": "^3.12.0",
 		"svelte-codemirror-editor": "^1.4.1"
