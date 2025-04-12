@@ -7,6 +7,7 @@
 	import type IExoModuleData from '../../IExoModuleData';
 	import type { ContainerData } from './ContainerData';
 	import { preventDefault } from 'svelte/legacy';
+	import { error } from '@sveltejs/kit';
 
 	let {
 		data: datas = $bindable(),
@@ -104,6 +105,7 @@
 			}}
 			onfocusout={(e: any) => {
 				if (
+					e.relatedTarget &&
 					!document
 						.getElementById('exo_block_' + instance.getBlocks()[v.index].id)
 						?.contains(e.relatedTarget as any)
