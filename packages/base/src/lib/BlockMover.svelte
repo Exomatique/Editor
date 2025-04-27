@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Popover } from '@skeletonlabs/skeleton-svelte';
 	import type ExoInstance from './ExoInstance.js';
-	import BlockSelector from './BlockSelector.svelte';
 	import { onMount } from 'svelte';
 
 	let {
@@ -12,30 +11,50 @@
 
 	let filter = $state('');
 	let selector: HTMLElement | undefined = $state(undefined);
+	let position: HTMLElement | undefined = $state(undefined);
 
-	onMount(() => () => (open = false));
+	function close() {
+		open = false;
+		selector?.remove();
+	}
+
+	onMount(() => close);
+
+	$effect(() => {
+		if (open && selector) {
+			document.body.append(selector);
+			selector.focus();
+			const rect = position?.getBoundingClientRect();
+			if (!rect) return;
+
+			selector.style.top = `${rect.y + window.scrollY}px`;
+			selector.style.left = `${rect.x + window.scrollX}px`;
+		}
+	});
 </script>
 
 <button
 	aria-label="block adder"
 	class="hover:bg-surface-100 ignore-focus rounded-lg px-2"
 	onclick={() => {
-		open = true;
+		open = !open;
 	}}
 >
 	<i class="fa-solid fa-ellipsis-vertical"></i><i class="fa-solid fa-ellipsis-vertical"></i>
 </button>
 
+<div bind:this={position}></div>
 {#if open}
 	<div
 		bind:this={selector}
 		role="none"
+		tabindex="-1"
 		class="border-surface-300 bg-surface-50 absolute z-50 flex flex-col rounded-lg border-2 p-2 text-neutral-950 scheme-light"
 		onfocusout={(e) => {
-			if (!e.relatedTarget || !selector?.contains(e.relatedTarget as any)) open = false;
+			if (!e.relatedTarget || !selector?.contains(e.relatedTarget as any)) close();
 		}}
 		onkeydown={(e) => {
-			if (e.key === 'Escape') open = false;
+			if (e.key === 'Escape') close();
 		}}
 	>
 		<div class="flex w-md flex-col gap-5 scheme-light">
