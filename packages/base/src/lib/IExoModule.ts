@@ -16,4 +16,6 @@ export default interface IExoModule<U> {
 
 	macros?: Macro<U>[];
 	default_value: (editor: ExoEditor) => U;
+
+	context?: (editor: ExoEditor) => any;
 }

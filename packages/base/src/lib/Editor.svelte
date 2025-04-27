@@ -5,12 +5,19 @@
 	import ExoInstance from './ExoInstance.js';
 	import Container from './modules/container/Container.svelte';
 	import './content.css';
+	import { onMount } from 'svelte';
 
 	let {
 		exo_editor: editor,
 		data = $bindable(),
 		editable = false
 	}: { exo_editor: ExoEditor; data: IExoModuleData[]; editable?: boolean } = $props();
+
+	onMount(() => {
+		Object.keys(editor.modules)
+			.map((v) => editor.modules[v])
+			.forEach((module) => module?.context?.apply(module, [editor]));
+	});
 
 	$effect(() => {
 		if (
