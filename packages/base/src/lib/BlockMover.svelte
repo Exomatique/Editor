@@ -23,12 +23,12 @@
 	$effect(() => {
 		if (open && selector) {
 			document.body.append(selector);
-			selector.focus();
 			const rect = position?.getBoundingClientRect();
 			if (!rect) return;
 
 			selector.style.top = `${rect.y + window.scrollY}px`;
 			selector.style.left = `${rect.x + window.scrollX}px`;
+			selector.focus();
 		}
 	});
 </script>
@@ -37,7 +37,10 @@
 	aria-label="block adder"
 	class="hover:bg-surface-100 ignore-focus rounded-lg px-2"
 	onclick={() => {
-		open = !open;
+		open = true;
+		instance.setFocus(index);
+		instance.setEdition(-1);
+		instance.setHovered(index);
 	}}
 >
 	<i class="fa-solid fa-ellipsis-vertical"></i><i class="fa-solid fa-ellipsis-vertical"></i>
