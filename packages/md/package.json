@@ -1,6 +1,6 @@
 {
 	"name": "@exomatique_editor/md",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run prepack",
@@ -59,6 +59,7 @@
 		"@codemirror/language": "^6.11.0",
 		"@codemirror/state": "^6.5.2",
 		"@codemirror/view": "^6.36.5",
+		"@exomatique_editor/base": "^1.1.4",
 		"@lezer/common": "^1.2.3",
 		"@lezer/highlight": "^1.2.1",
 		"@lezer/markdown": "^1.4.2",
