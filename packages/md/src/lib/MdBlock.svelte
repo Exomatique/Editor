@@ -23,6 +23,7 @@
 	import { parseMathIPython } from './MarkdownTexParser';
 	import { stex, stexMath } from '@codemirror/legacy-modes/mode/stex';
 	import { getLanguage, type ExoInstance } from '@exomatique_editor/base';
+	import type MdModule from './MdModule';
 
 	let {
 		data = $bindable(),
@@ -31,7 +32,8 @@
 		instance,
 		id,
 		index,
-		editable
+		editable,
+		module
 	}: {
 		data: MdData;
 		onchange: (v: string) => void;
@@ -40,16 +42,29 @@
 		id: string;
 		index: number;
 		editable: boolean;
+		module: MdModule;
 	} = $props();
 
 	let html_data = $state('');
 
 	const html_data_updater = async (data: string) => {
-		return await unified()
-			.use(remarkParse)
-			.use(remarkMath)
-			.use(remarkGfm)
-			.use(remarkRehype, { allowDangerousHtml: true })
+		let unified_instance = unified().use(remarkParse).use(remarkMath).use(remarkGfm);
+
+		module.extra_plugins
+			.filter((v) => v.type === 'remark')
+			.forEach(
+				(v) => (unified_instance = unified_instance.use(v.plugin, ...(v.parameter || [])) as any)
+			);
+
+		unified_instance = unified_instance.use(remarkRehype, { allowDangerousHtml: true }) as any;
+
+		module.extra_plugins
+			.filter((v) => v.type === 'rehype')
+			.forEach(
+				(v) => (unified_instance = unified_instance.use(v.plugin, ...(v.parameter || [])) as any)
+			);
+
+		return await unified_instance
 			.use(rehypeSanitize)
 			.use(rehypeMathjax)
 			.use(rehypeRaw)

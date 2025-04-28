@@ -3,6 +3,7 @@ import MdBlock from './MdBlock.svelte';
 import type { MdData } from './MdData.js';
 
 export interface MarkdownPlugin {
+	type: 'rehype' | 'remark';
 	plugin: any;
 	parameter?: any[];
 }
@@ -19,5 +20,9 @@ export default class MdModule implements IExoModule<MdData> {
 
 	constructor(plugins?: MarkdownPlugin[]) {
 		this.extra_plugins.concat(plugins || []);
+	}
+
+	addPlugin(plugin: MarkdownPlugin) {
+		this.extra_plugins.push(plugin);
 	}
 }
